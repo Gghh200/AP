@@ -81,14 +81,18 @@ void encrypt(){
 	cin >> plain;
 	cout << "\n Enter shift: ";
 	cin >> shift;
-	for(int i = 0; i < plain.length() - 1; i++){
-		int place = find(characters[0],characters[36], plain[i]);
-		if(place + shift > 36){
-			place = place - shift;
-		}else{
-			place = place + shift;
+	transform(plain.begin(), plain.end(), plain.begin(), ::toupper); 
+	for(int i = 0; i < plain.length(); i++){
+		if(plain[i] != ' '){
+			char* FindTarget = find(&characters[0], characters + (sizeof(characters) / sizeof(characters[0])), plain[i]);
+			int place = FindTarget - characters;
+			if(place + shift > 36){
+				place = place + shift - 36;
+			}else{
+				place = place + shift;
+			}
+			plain[i] = characters[place];
 		}
-		plain[i] = characters[place];
 	}
-	cout << plain;
+	cout << plain << "\n";
 }
