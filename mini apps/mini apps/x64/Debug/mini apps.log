@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\mini apps\mini apps\Source.cpp(5,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\mini apps\mini apps\Source.cpp(58,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  mini apps.vcxproj -> C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\mini apps\x64\Debug\mini apps.exe
