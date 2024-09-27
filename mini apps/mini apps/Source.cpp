@@ -6,33 +6,59 @@ using namespace std;
 int main() {
 	srand(time(0));
 	void menu();
+	cout << "P4CS Mini Applications \n ----------------------";
+	cout << "Please select an option: \n 1) Keep Counting \n 2) Square Root Calculator \n 3) Encrypt Text (Caesar Cipher) \n 4) Decrypt Text (Caesar Cipher) \n 5) Quit";
+	cout << "\n Please enter 1,2,3,4,5: ";
 	menu();
 	return 0;
 }
 
 void menu() {
-	void counting();
-	void square();
-	void encrypt();
-	int input;
-	cout << "P4CS Mini Applications \n ----------------------";
-	cout << "Please select an option: \n 1) Keep Counting \n 2) Square Root Calculator \n 3) Encrypt Text (Caesar Cipher) \n 4) Decrypt Text (Caesar Cipher) \n 5) Quit";
-	cout << "\n Please enter 1,2,3,4,5: ";
-	cin >> input;
-	switch (input) {
-	case 1:
-		counting();
-		break;
-	case 2:
-		square();
-		break;
-	case 3:
-		encrypt();
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
+	while(true){
+		void counting();
+		void square();
+		void encrypt();
+		bool continues();
+		int input;
+		cin >> input;
+		switch (input) {
+			case 1:
+				counting();
+				break;
+			case 2:
+				square();
+				break;
+			case 3:
+				encrypt();
+				break;
+			case 4:
+				break;
+			case 5:
+				false;
+				break;
+			default:
+				cout << "Enter 1,2,3,4,5";
+		}
+	}
+}
+
+bool continues(){
+	string answer;
+	cout << "Would you like to go back to the menu (Y/N): ";
+	while(true){
+		cin >> answer;
+		if(answer.length() == 1){
+			toupper(answer[0]);
+			if(answer == "Y"){
+				return true;
+			}else if(answer == "N"){
+				return false;
+			}else{
+				cout << "Enter Y/N";
+			}
+		}else{
+			cout << "Enter Y/N";
+		}
 	}
 }
 
@@ -86,6 +112,7 @@ void encrypt(){
 		if(plain[i] != ' '){
 			char* FindTarget = find(&characters[0], characters + (sizeof(characters) / sizeof(characters[0])), plain[i]);
 			int place = FindTarget - characters;
+			place = i;
 			if(place + shift > 36){
 				place = place + shift - 36;
 			}else{
