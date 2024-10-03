@@ -19,19 +19,25 @@ void menu() {
 		void square();
 		void encrypt();
 		bool continues();
+		void decrypt();
 		int input;
 		cin >> input;
 		switch (input) {
 			case 1:
 				counting();
+				continues();
 				break;
 			case 2:
 				square();
+				continues();
 				break;
 			case 3:
 				encrypt();
+				continues();
 				break;
 			case 4:
+				decrypt();
+				continues();
 				break;
 			case 5:
 				false;
@@ -45,19 +51,22 @@ void menu() {
 bool continues(){
 	string answer;
 	cout << "Would you like to go back to the menu (Y/N): ";
+	cin >> answer;
 	while(true){
-		cin >> answer;
 		if(answer.length() == 1){
 			toupper(answer[0]);
 			if(answer == "Y"){
+				cout << "\n Please enter 1,2,3,4,5: ";
 				return true;
 			}else if(answer == "N"){
 				return false;
 			}else{
-				cout << "Enter Y/N";
+				cout << "Enter Y/N: ";
+				cin >> answer;
 			}
 		}else{
-			cout << "Enter Y/N";
+			cout << "Enter Y/N: ";
+			cin >> answer;
 		}
 	}
 }
@@ -112,13 +121,41 @@ void encrypt(){
 		if(plain[i] != ' '){
 			char* FindTarget = find(&characters[0], characters + (sizeof(characters) / sizeof(characters[0])), plain[i]);
 			int place = FindTarget - characters;
-			place = i;
 			if(place + shift > 36){
 				place = place + shift - 36;
 			}else{
 				place = place + shift;
 			}
 			plain[i] = characters[place];
+		}else{
+			continue;
+		}
+	}
+	cout << plain << "\n";
+}
+
+void decrypt(){
+	string plain;
+	int shift;
+	char characters[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+	cout << "Encrypt \n ----------------------";
+	cout << "\n Enter string: ";
+	cin >> plain;
+	cout << "\n Enter shift: ";
+	cin >> shift;
+	transform(plain.begin(), plain.end(), plain.begin(), ::toupper); 
+	for(int i = 0; i < plain.length(); i++){
+		if(plain[i] != ' '){
+			char* FindTarget = find(&characters[0], characters + (sizeof(characters) / sizeof(characters[0])), plain[i]);
+			int place = FindTarget - characters;
+			if(place - shift < 0){
+				place = 36 - (place + shift);
+			}else{
+				place = place - shift;
+			}
+			plain[i] = characters[place];
+		}else{
+			continue;
 		}
 	}
 	cout << plain << "\n";
