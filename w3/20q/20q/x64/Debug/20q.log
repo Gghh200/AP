@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\w3\20q\20q\main.cpp(5,13): error C2065: 'NULL': undeclared identifier
+C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\w3\20q\20q\main.cpp(5,8): error C3861: 'time': identifier not found
+C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\w3\20q\20q\main.cpp(5,2): error C3861: 'srand': identifier not found
+C:\Users\c3007129\OneDrive - Sheffield Hallam University\AP\w3\20q\20q\main.cpp(8,16): error C3861: 'rand': identifier not found
