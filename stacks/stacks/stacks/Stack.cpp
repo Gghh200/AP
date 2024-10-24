@@ -1,17 +1,12 @@
 #include "Stack.h"
 #include <iostream>
 
-int main(){
-	std::cout << "test";
-	Stack<int>* ints = new Stack<int>(3);
-	ints->push(1);
-	std::cout << ints->pop();
-	ints->~Stack();
-}
 template <typename T>
 Stack<T>::Stack(int max) {
-	T** values = (T**)malloc(sizeof(T*) * max);
+	T* values = (T*)malloc(sizeof(T) * max);
+	this -> values = values;
 	this->max = max;
+	current = 0;
 }
 
 template <typename T>
@@ -31,6 +26,7 @@ void Stack<T>::push(T value) {
 		realloc(values, sizeof(T*) * (max + 1));
 		max += 1;
 	}
+	current += 1;
 	values[current] = value;
 }
 
@@ -60,7 +56,7 @@ template <typename T>
 void Stack<T>::clear() {
 	free(values);
 	values = nullptr;
-	T ** values = (T**)malloc(sizeof(T*) * max);
+	T* values = (T*)malloc(sizeof(T*) * max);
 }
 
 template <typename T>
