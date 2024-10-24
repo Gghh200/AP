@@ -1,5 +1,4 @@
 #include "Stack.h"
-#include "Values.cpp"
 #include <iostream>
 
 template <typename T>
