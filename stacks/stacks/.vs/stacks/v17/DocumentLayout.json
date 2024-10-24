@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Values.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|solutionrelative:stacks\\Values.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Stack.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|solutionrelative:stacks\\Stack.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|solutionrelative:stacks\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Stack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{CFF09489-03FC-410F-8D83-16511482AA35}|stacks\\stacks.vcxproj|solutionrelative:stacks\\Stack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\main.cpp",
+              "RelativeDocumentMoniker": "stacks\\main.cpp",
+              "ToolTip": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\main.cpp",
+              "RelativeToolTip": "stacks\\main.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-24T11:52:28.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Stack.h",
+              "DocumentMoniker": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Stack.h",
+              "RelativeDocumentMoniker": "stacks\\Stack.h",
+              "ToolTip": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Stack.h",
+              "RelativeToolTip": "stacks\\Stack.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-24T10:35:46.513Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Stack.cpp",
+              "DocumentMoniker": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Stack.cpp",
+              "RelativeDocumentMoniker": "stacks\\Stack.cpp",
+              "ToolTip": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Stack.cpp",
+              "RelativeToolTip": "stacks\\Stack.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACgAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-24T10:35:51.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Values.cpp",
+              "DocumentMoniker": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Values.cpp",
+              "RelativeDocumentMoniker": "stacks\\Values.cpp",
+              "ToolTip": "C:\\Users\\c3007129\\OneDrive - Sheffield Hallam University\\AP\\stacks\\stacks\\stacks\\Values.cpp",
+              "RelativeToolTip": "stacks\\Values.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-24T11:12:32.287Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
