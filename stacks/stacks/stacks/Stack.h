@@ -1,15 +1,13 @@
-#include "Values.cpp"
-
 template <typename T> 
 class Stack
 {
 	private:
 		int max;
 		int current;
-		Values<T>** values;
+		T* values;
 	public:
 		Stack(int max);
-		Stack(Values<T>**& values);
+		Stack(T*& values);
 		~Stack();
 		void push(T value);
 		T pop();
