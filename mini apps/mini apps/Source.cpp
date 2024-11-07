@@ -74,7 +74,7 @@ bool continues(){
 void counting() {
 	int count = 0;
 	int answer;
-	cout << "ADDING GAME \n ----------------------";
+	cout << "ADDING GAME \n ---------------------- \n";
 	for (int i = 0; i < 10; i++) {
 		int number1 = rand() % 11;
 		int number2 = rand() % 11;
