@@ -1,3 +1,4 @@
+#pragma once
 #include "OneClick.h"
 
 class Speaker : public OneClick{

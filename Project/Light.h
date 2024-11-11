@@ -1,3 +1,4 @@
+#pragma once
 #include "OneClick.h"
 #include <iostream>
 #include <string>
