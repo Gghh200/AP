@@ -9,6 +9,7 @@ using namespace std;
 
 class OneClick : virtual public Device{
         public:
+                inline OneClick() : OnOff(false) {this-> name = "NULL";};
                 inline OneClick(string name) : OnOff(false){this-> name = name;};
                 inline void ChangeOnOff() {OnOff == !OnOff;};
                 inline bool GetOnOff() const {return OnOff;};
@@ -19,18 +20,23 @@ class OneClick : virtual public Device{
         
 };
 
-class OneClick::SleepTimer : public OneClick{
+class OneClick::SleepTimer : virtual public OneClick{
         public:
+                inline SleepTimer(string name) : OneClick(name){};
                 void sleepTimer(int SleepFor);
 };
 
-class OneClick::Schedule : public OneClick{
+class OneClick::Schedule : virtual public OneClick{
         public:
-                void changeSleep(int start);
-                void changeSleep(int start, int length);
-                void timeCheck(bool& end);
+                inline Schedule(string name) : OneClick(name) {};
+                inline Schedule(string name, int start, int length) : OneClick(name){StartSchedules(start, length);};
+                inline void StartSchedules(int start, int length){Schedules = true; changeSleep(start, length);}
+                inline void changeSleep(int start){SleepStart = start;};
+                inline void changeSleep(int start, int length){SleepStart = start; SleepLength = length;};
+                inline void timeCheck(bool& end) {thread thread1(&OneClick::Schedule::timeChecks, this, ref(end));};
                 void timeChecks(bool& end);
         private:
                 int SleepStart;
                 int SleepLength;
+                bool Schedules;
 };

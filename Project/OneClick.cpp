@@ -15,12 +15,8 @@ void OneClick::Schedule::changeSleep(int start, int length){
     SleepLength = length;
 }
 
-void OneClick::Schedule::timeCheck(bool& end){
-    thread thread1(&OneClick::Schedule::timeChecks, this, ref(end));
-}
-
 void OneClick::Schedule::timeChecks(bool& end){
-    while(end){
+    while(Schedules && end){
         if((time(0) % 3600 ) / 3600 == SleepStart){
             ChangeOnOff();
             sleep(SleepLength * 3600);

@@ -3,9 +3,9 @@
 #include <string>
 using namespace std;
 
-class Light : public OneClick{
+class Light : public OneClick::SleepTimer{
         public:
-                Light(string name, int SleepStart, int SleepLength, bool& end) : OneClick(name){this->name = name;};
+                Light(string name, bool& end) : SleepTimer(name){this->name = name;};
                 inline void setBrightness(int brightness){this->brightness = brightness;};
         private:
                 int brightness;
