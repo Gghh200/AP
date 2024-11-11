@@ -6,7 +6,7 @@
 template <typename T>
 class LiveHistoric : virtual public Device{
     public:
-        LiveHistoric(int HistoricSize, float sensitivity, int record, int HistoricMax, bool& end);
+        LiveHistoric(string name, int HistoricSize, float sensitivity, int record, int HistoricMax, bool& end);
         ~LiveHistoric();
         static void UpdateLive(bool& end);
         static void Update(bool& end);
@@ -19,11 +19,15 @@ class LiveHistoric : virtual public Device{
         float sensitivity;
         int record;
         float change;
+        string name;
 };
 
 template <typename T>
-LiveHistoric<T>::LiveHistoric(int historicSize, float sensitivity, int record, int HistoricMax, bool& end) : live(nullptr), sensitivity(sensitivity), record(record)
-, HistoricMax(HistoricMax){UpdateLive(bool& end);}
+LiveHistoric<T>::LiveHistoric(string name, int historicSize, float sensitivity, int record, int HistoricMax, bool& end) : live(nullptr), sensitivity(sensitivity), record(record)
+, HistoricMax(HistoricMax){
+    UpdateLive(bool& end);
+    this-> name = name;
+}
 
 template <typename T>
 LiveHistoric<T>::~LiveHistoric(){
@@ -45,7 +49,6 @@ void LiveHistoric<T>::Update(bool& end){
     int x = 0;
     while(end){
         incrementLive();
-        sleep(sensitivity);
         if(x == record){
             if(historic.size != HistoricMax){
                 historic.push(live);
@@ -56,6 +59,7 @@ void LiveHistoric<T>::Update(bool& end){
             }
             x = 0;
         }
+        sleep(sensitivity);
     }
 }
 
