@@ -5,9 +5,9 @@ using namespace std;
 
 class Device{
         public:
-                inline Device(string name) : name(name){};
                 inline Device() : name(NULL){};
                 inline string GetName() const {return name;};
-        protected:
+                inline void SetName(string name){this->name = name;};
+        private:
                 string name;
 };
