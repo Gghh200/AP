@@ -44,7 +44,7 @@ LiveHistoric<T>::~LiveHistoric(){
 template <typename T>
 void LiveHistoric<T>::UpdateLive(bool& end){
     thread thread1(Update, end);
-    thread thread2(incrementLive(bool& end));
+    thread thread2(incrementLive, end);
 }
 
 template <typename T>
