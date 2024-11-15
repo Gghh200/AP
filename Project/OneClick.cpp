@@ -1,11 +1,5 @@
 #include "OneClick.h"
 
-void OneClick::SleepTimer::sleepTimer(int SleepFor){
-    OnOff = true;
-    sleep(SleepFor);
-    OnOff = false;
-}
-
 void OneClick::Schedule::changeSleep(int start){
     SleepStart = start;
 }

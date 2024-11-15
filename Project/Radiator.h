@@ -9,5 +9,5 @@ class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
         int& temp;
 };
 Radiator::Radiator(string name, int& temp) : temp(temp){
-    this->SetName(name);
+    SetName(name);
 }
