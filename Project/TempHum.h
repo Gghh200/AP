@@ -1,7 +1,7 @@
 #pragma once
 #include "LiveHistoric.h"
 
-class TempHum : public LiveHistoric<int[2]>{
+class TempHum : public LiveHistoric<int*>{
     public:
         TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp);
         
@@ -9,7 +9,8 @@ class TempHum : public LiveHistoric<int[2]>{
         void incrementLive(bool& end);
         int& temp;
 };
-TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : temp(temp), LiveHistoric(0, HistoricMax, sensitivity, end){
+TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
     this->SetName(name);
     this->UpdateLive(end);
+    SetLive(new int[2]{0,0});
 }

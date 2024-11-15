@@ -6,20 +6,21 @@
 
 template <typename T>
 class LiveHistoric : virtual public Device{
+    public:
+        void Update(bool& end);
     protected:
         inline LiveHistoric() : live(NULL), HistoricMax(0), sensitivity(0){};
-        LiveHistoric(int live, int HistoricMax, float sensitivity, bool& end);
+        LiveHistoric(int HistoricMax, float sensitivity, bool& end);
         ~LiveHistoric();
         inline void SetLive(T live){this->live = live;};
-        inline T* GetLive(){return live;};
+        inline T GetLive(){return live;};
         inline queue<T> GetHistoric(){return historic;};
         inline int GetHistoricMax(){return HistoricMax;};
         inline int GetSensitivity(){return sensitivity;};
-        static void UpdateLive(bool& end);
+        void UpdateLive(bool& end);
 
     private:
-        void Update(bool& end);
-        void incrementLive(bool& end);
+        virtual void incrementLive(bool& end);
         T live;
         queue<T> historic;
         int HistoricMax;
@@ -27,24 +28,19 @@ class LiveHistoric : virtual public Device{
 };
 
 template <typename T>
-LiveHistoric<T>::LiveHistoric(int live, int HistoricMax, float sensitivity, bool& end) : live(live), HistoricMax(HistoricMax), sensitivity(sensitivity){
-    UpdateLive(end);
-}
+LiveHistoric<T>::LiveHistoric(int HistoricMax, float sensitivity, bool& end) : HistoricMax(HistoricMax), sensitivity(sensitivity){}
 
 template <typename T>
 LiveHistoric<T>::~LiveHistoric(){
-    for (typename queue<T*>::iterator it(historic.begin()); it != historic.end(); it++) {
-		delete (*it);
-		(*it) = nullptr;
-	}
-    delete live;
-    live = nullptr;
+    while(!historic.empty()){
+        historic.pop();
+    }
 }
 
 template <typename T>
 void LiveHistoric<T>::UpdateLive(bool& end){
-    thread thread1(&LiveHistoric::Update, ref(end));
-    thread thread2(&LiveHistoric::incrementLive, ref(end));
+    thread thread1(&LiveHistoric::Update, this, ref(end));
+    thread thread2(&LiveHistoric::incrementLive, this, ref(end));
     thread1.detach();
     thread2.detach();
 }
@@ -65,9 +61,3 @@ void LiveHistoric<T>::Update(bool& end){
     }
 }
 
-template <typename T>
-void LiveHistoric<T>::incrementLive(bool& end){
-    while (end){
-        live++;
-    }  
-}

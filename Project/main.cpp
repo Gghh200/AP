@@ -1,30 +1,29 @@
 #include <list>
 #include "Light.h"
-// #include "Plug.h"
-//#include "Radiator.h"
-// #include "Speaker.h"
-// #include "TempHum.h"
-//#include "Thermostat.h"
+#include "Plug.h"
+#include "Radiator.h"
+#include "Speaker.h"
+#include "TempHum.h"
+#include "Thermostat.h"
 
 void ChangeTemp(bool& end, list<Device*>& House, int& temp, int& TempMax, int& TempMin);
 void UpdateTemp(bool& end, list<Device*>& House, int& temp, int& TempMax, int& TempMin);
 
 int main(){
-	bool end = false;
+	bool end = true;
 	bool NotEnd = false;
 	int temp = 5;
 	int TempMax = 30;
 	int TempMin = 5;
 	list<Device*> House;
 	//ChangeTemp(end, House, temp, TempMax, TempMin);
-	Light* test = new Light("Light");
-	test->sleepTimer(10, NotEnd);
+	Plug* test = new Plug("Plug", 10, 0, end, 5);
+
 	while(true){
 		if(!NotEnd && !end){
 			end = false;
 			break;
 		}
-		sleep(1);
 	}
 	
 	#ifdef _DEBUG
