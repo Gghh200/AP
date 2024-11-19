@@ -10,13 +10,13 @@ using namespace std;
 
 class OneClick : virtual public Device{
         public:
-                inline OneClick() : OnOff(false) {};
                 inline void ChangeOnOff() {OnOff = !OnOff;};
                 inline bool GetOnOff() const {return OnOff;};
                 class SleepTimer;
                 class Schedule;
 
         protected:
+                inline OneClick() : OnOff(false) {};
                 inline void SetOnOff(bool val) {OnOff == val;};
                 
         private:
@@ -47,14 +47,29 @@ inline void OneClick::SleepTimer::call(int SleepFor, bool& NotEnd){
 
 class OneClick::Schedule : virtual public OneClick{
         public:
-                inline Schedule() : SleepStart(0), SleepLength(0), Schedules(false){};
-                inline void StartSchedules(int start, int length, bool& end){Schedules = true; changeSleep(start, length); timeCheck(end);}
-                inline void changeSleep(int start){SleepStart = start;};
+                inline Schedule(bool& end) : SleepStart(0), SleepLength(0), Schedules(false), end(end){};
+                inline void StartSchedules(int start, int length){Schedules = true; changeSleep(start, length); timeCheck();}
                 inline void changeSleep(int start, int length){SleepStart = start; SleepLength = length;};
-                inline void timeCheck(bool& end) {thread thread1(&OneClick::Schedule::timeChecks, this, ref(end));};
+                inline void timeCheck() {thread thread1(&OneClick::Schedule::timeChecks, this, ref(end));};
+                inline bool GetSchedule(){return Schedules;};
+                inline int GetStart(){return SleepStart % 3600 / 3600;};
+                inline int GetLength(){return SleepLength % 3600 / 3600;};
+                inline bool& GetEnd(){return end;};
                 void timeChecks(bool& end);
         private:
                 int SleepStart;
                 int SleepLength;
                 bool Schedules;
+                bool& end;
 };
+
+void OneClick::Schedule::timeChecks(bool& end){
+    while(Schedules && end){
+        if((time(0) % 3600 ) / 3600 == SleepStart){
+            ChangeOnOff();
+            sleep(SleepLength * 3600);
+        }else{
+            sleep(3600);
+        }
+    }
+}

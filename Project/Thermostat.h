@@ -6,6 +6,6 @@ using namespace std;
 
 class Thermostat : public OneClick::Schedule{
         public:
-                inline Thermostat(string name){this->SetName(name);};
+                inline Thermostat(string name, bool& end) : Schedule(end){this->SetName(name);};
                 void HeatingBoost();
 };

@@ -6,11 +6,28 @@ class TempHum : public LiveHistoric<int*>{
         TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp);
         
     private:
-        void incrementLive(bool& end);
+        void incrementLive();
         int& temp;
+        int humidity;
+        int humidityMax;
+        int humidityMin;
 };
-TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
+TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : humidityMax(100), humidityMin(60), humidity(78), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
     this->SetName(name);
-    this->UpdateLive(end);
+    this->UpdateLive();
     SetLive(new int[2]{0,0});
+}
+
+
+void TempHum::incrementLive(){
+    srand(time(0));
+    while(GetEnd()){
+        if(rand() % 2 == 0 && humidity <= humidityMin){
+            humidity += rand() % 3;
+        }else{
+            humidity -= rand() % 3;
+        }
+        int value[2] = {temp, humidity};
+        this->SetLive(value);
+    }
 }

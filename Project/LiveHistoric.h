@@ -9,26 +9,28 @@ class LiveHistoric : virtual public Device{
     public:
         void Update(bool& end);
     protected:
-        inline LiveHistoric() : live(NULL), HistoricMax(0), sensitivity(0){};
+        inline LiveHistoric() : live(NULL), HistoricMax(0), sensitivity(0), end(false){};
         LiveHistoric(int HistoricMax, float sensitivity, bool& end);
         ~LiveHistoric();
         inline void SetLive(T live){this->live = live;};
+        inline bool& GetEnd(){return end;};
         inline T GetLive(){return live;};
         inline queue<T> GetHistoric(){return historic;};
         inline int GetHistoricMax(){return HistoricMax;};
         inline int GetSensitivity(){return sensitivity;};
-        void UpdateLive(bool& end);
+        void UpdateLive();
+        virtual void incrementLive(bool& end) = 0;
 
     private:
-        virtual void incrementLive(bool& end);
         T live;
         queue<T> historic;
         int HistoricMax;
         float sensitivity;
+        bool& end;
 };
 
 template <typename T>
-LiveHistoric<T>::LiveHistoric(int HistoricMax, float sensitivity, bool& end) : HistoricMax(HistoricMax), sensitivity(sensitivity){}
+LiveHistoric<T>::LiveHistoric(int HistoricMax, float sensitivity, bool& end) : HistoricMax(HistoricMax), sensitivity(sensitivity), end(end){}
 
 template <typename T>
 LiveHistoric<T>::~LiveHistoric(){
@@ -38,7 +40,7 @@ LiveHistoric<T>::~LiveHistoric(){
 }
 
 template <typename T>
-void LiveHistoric<T>::UpdateLive(bool& end){
+void LiveHistoric<T>::UpdateLive(){
     thread thread1(&LiveHistoric::Update, this, ref(end));
     thread thread2(&LiveHistoric::incrementLive, this, ref(end));
     thread1.detach();
