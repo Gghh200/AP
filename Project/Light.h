@@ -6,8 +6,7 @@ using namespace std;
 
 class Light : public OneClick::SleepTimer{
         public:
-                inline Light(string name){this->SetName(name);};
-                inline int GetBrightness(){return brightness;};
+                inline Light(string name, bool& NotEnd) : SleepTimer(NotEnd){this->SetName(name);};
                 inline void setBrightness(int brightness){this->brightness = brightness;};
                 void DisplayFunctions() override;
         private:

@@ -4,6 +4,7 @@
 class TempHum : public LiveHistoric<int*>{
     public:
         TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp);
+        void DisplayFunctions() override;
         
     private:
         void incrementLive();

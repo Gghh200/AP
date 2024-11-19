@@ -1,37 +1,6 @@
-#pragma once
-#include "OneClick.h"
-#include "LiveHistoric.h"
+#include "Radiator.h"
 
-class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>{
-    public:
-        Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd);
-        void DisplayFunctions() override;
-        
-    private:
-        void incrementLive();
-        int power;
-};
-
-Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end), SleepTimer(NotEnd){
-    this->SetName(name);
-    UpdateLive();
-    this->SetType("Plug");
-}
-
-void Plug::incrementLive(){
-    srand(time(0));
-    while(LiveHistoric::GetEnd()){
-        if(this->OneClick::GetOnOff()){
-            if(rand() % 2 == 0){
-                this->SetLive(power + rand() % 3);
-            }else{
-                this->SetLive(power - rand() % 3);
-            }
-        }
-    }
-}
-
-void Plug::DisplayFunctions(){
+void Radiator::DisplayFunctions(){
     bool Another();
     bool isNumber(const string input);
     string IsOnOff;
@@ -43,8 +12,7 @@ void Plug::DisplayFunctions(){
         IsOnOff = "OFF";
     }
     cout << this;
-    cout << "Its current power usage is : " << GetLive() << "\n"
-         << "And is currently: " << IsOnOff << "\n";
+    cout << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){
             cout << "Is schedule starts at " << GetStart() << ":00 and last for " << GetLength() << " hours \n";
          }

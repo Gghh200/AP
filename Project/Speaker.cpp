@@ -1,6 +1,6 @@
-#include "Light.h"
+#include "Speaker.h"
 
-void Light::DisplayFunctions(){
+void Speaker::DisplayFunctions(){
     bool Another();
     string IsOnOff;
     string UserInput;
@@ -11,33 +11,31 @@ void Light::DisplayFunctions(){
         IsOnOff = "OFF";
     }
     cout << this;
-    cout << "Its brightness is : " << brightness << "\n"
+    cout << "Its Volume is : " << Volume << "\n"
          << "And is currently: " << IsOnOff << "\n"
          << "Its functions are: \n"
-         << "1: Change brightness \n"
-         << "2: Switch On or Off \n"
-         << "3: Exit Menu";
+         << "1: Volume Up \n"
+         << "2: Volume Down \n"
+         << "3: Switch On or Off \n"
+         << "4: Exit Menu";
 
     while(end){
         cin >> UserInput;
         switch(UserInput[0]) {
             case '1':{
-                int NewBrightness;
-                cout << "Enter new brightness";
-                cin >> NewBrightness;
-                if(!Another()){
-                    end = false;
-                }
-                break;
+                volumeUp;
             }
-            case '2':{
+            case '2':{   
+                volumeDown();
+            }
+            case '3':{
                 ChangeOnOff();
                 if(!Another()){
                     end = false;
                 }
                 break;
             }
-            case '3':{
+            case '4':{
                 end = false;
             }
             default:{

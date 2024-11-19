@@ -8,4 +8,5 @@ class Thermostat : public OneClick::Schedule{
         public:
                 inline Thermostat(string name, bool& end) : Schedule(end){this->SetName(name);};
                 void HeatingBoost();
+                void DisplayFunctions() override;
 };
