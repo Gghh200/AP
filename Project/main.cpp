@@ -18,8 +18,8 @@ int main(){
 	int TempMax = 30;
 	int TempMin = 5;
 	list<Device*> House;
-	// ChangeTemp(end, House, temp, TempMax, TempMin);
-	// menu(end, NotEnd, House);
+	ChangeTemp(end, House, temp, TempMax, TempMin);
+	menu(end, NotEnd, House);
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);
 	#endif
