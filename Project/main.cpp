@@ -59,7 +59,7 @@ void menu(bool end, bool NotEnd, list<Device*> House){
 		 << "3: Sort by device type (by name as secondary order) \n"
 		 << "4: Select device to interact with it’s full feature set \n"
 		 << "5: Add device \n"
-		 << "6: Exit";
+		 << "6: Exit \n";
 	cin >> UserInput;
 	switch(UserInput[0]) {
 		case '1':{
@@ -95,11 +95,12 @@ void menu(bool end, bool NotEnd, list<Device*> House){
 		}
 		case '6':{
 			while(true){
-				if(!NotEnd && !end){
+				if(!NotEnd && end){
 					end = false;
 					break;
 				}
 			}
+			break;
 		}
 		default:{
 
