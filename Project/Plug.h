@@ -15,7 +15,6 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
 Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end), SleepTimer(NotEnd){
     this->SetName(name);
     UpdateLive();
-    this->SetType("Plug");
 }
 
 void Plug::incrementLive(){
