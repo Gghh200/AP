@@ -8,7 +8,7 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
         void DisplayFunctions() override;
         
     private:
-        void incrementLive();
+        void incrementLive() override;
         int power;
 };
 
@@ -22,9 +22,11 @@ void Plug::incrementLive(){
     while(LiveHistoric::GetEnd()){
         if(this->OneClick::GetOnOff()){
             if(rand() % 2 == 0){
-                this->SetLive(power + rand() % 3);
+                int temp = (power + rand() % 3);
+                this->SetLive(temp);
             }else{
-                this->SetLive(power - rand() % 3);
+                int temp = (power - rand() % 3);
+                this->SetLive(temp);
             }
         }
     }

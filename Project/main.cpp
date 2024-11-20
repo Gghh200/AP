@@ -17,10 +17,11 @@ int main(){
 	int temp = 5;
 	int TempMax = 30;
 	int TempMin = 5;
+	TempHum* test = new TempHum("name", 5, 1, end, temp);
+	TempHum test2 = *test;
 	list<Device*> House;
 	ChangeTemp(end, House, temp, TempMax, TempMin);
 	menu(end, NotEnd, House);
-	
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);
 	#endif
@@ -75,10 +76,10 @@ void menu(bool end, bool NotEnd, list<Device*> House){
 		
 		case '3':{
 			House.sort([](const Device* first, const Device* second) { 
-				if(first->GetType() == second->GetType() && first->GetName() < second->GetName()){
+				if(typeid(first) == typeid(second) && first->GetName() < second->GetName()){
 					return true; 
 				}
-				return first->GetType() < second->GetType(); 
+				return typeid(first).name() < typeid(second).name(); 
 			});
 			display(House);
 			break;
