@@ -10,7 +10,6 @@ class Device{
                 inline void SetName(string name){this->name = name;};
                 inline string GetType() const {return type;};
                 inline void SetType(string type){this->type = type;};
-                virtual bool GetOnOff() const = 0;
                 friend ostream& operator<<(ostream& os, const Device& data);
                 virtual void DisplayFunctions() = 0;
         private:

@@ -20,6 +20,7 @@ int main(){
 	list<Device*> House;
 	ChangeTemp(end, House, temp, TempMax, TempMin);
 	menu(end, NotEnd, House);
+	
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);
 	#endif
@@ -33,9 +34,9 @@ void ChangeTemp(bool& end, list<Device*>& House, int& temp, int& TempMax, int& T
 void UpdateTemp(bool& end, list<Device*>& House, int& temp, int& TempMax, int& TempMin){
 	while(end){
 		for(Device* device : House){
-			if(typeid(*device) == typeid(Thermostat) && device->GetOnOff()){
+			if(typeid(*device) == typeid(Thermostat) && dynamic_cast<Thermostat*>(device)->GetOnOff()){
 				for(Device* device : House){
-					if(typeid(*device) == typeid(Radiator) && device->GetOnOff()){
+					if(typeid(*device) == typeid(Radiator) && dynamic_cast<Radiator*>(device)->GetOnOff()){
 							if(temp != TempMax){
 								temp += 2;
 							}
