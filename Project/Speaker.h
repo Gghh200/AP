@@ -4,14 +4,22 @@
 class Speaker : public OneClick{
         public:
                 inline Speaker(string name) : Volume(0), MaxVolume(10){this->SetName(name);};
+                inline Speaker(string name, int Volume, int MaxVolume, bool OnOff);
                 inline void setVolume(int Volume){this->Volume = Volume;};
                 inline void volumeUp(){if(Volume != MaxVolume) Volume++;};
                 inline void volumeDown(){if(Volume != 0) Volume--;};
                 void DisplayFunctions() override;
+                list<string> GetValues() override;
+
         private:
                 int Volume;
                 int MaxVolume;
 };
+
+Speaker::Speaker(string name, int Volume, int MaxVolume, bool OnOff) : Volume(Volume), MaxVolume(MaxVolume){
+    this->SetName(name); 
+    SetOnOff(OnOff);
+}
 
 void Speaker::DisplayFunctions(){
     bool Another();
@@ -23,9 +31,9 @@ void Speaker::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << this;
+    cout << *this;
     cout << "Its Volume is : " << Volume << "\n"
-         << "And is currently: " << IsOnOff << "\n"
+         << "And it's currently: " << IsOnOff << "\n"
          << "Its functions are: \n"
          << "1: Volume Up \n"
          << "2: Volume Down \n"
@@ -57,4 +65,14 @@ void Speaker::DisplayFunctions(){
             }
         }
     }
+}
+
+list<string> Speaker::GetValues(){
+    list<string> temp;
+    temp.push_front("speaker");
+    temp.push_front(GetName());
+    temp.push_front(to_string(Volume));
+    temp.push_front(to_string(MaxVolume));
+    temp.push_front(to_string(GetOnOff()));
+    return temp;
 }

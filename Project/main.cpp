@@ -1,5 +1,6 @@
 #include <list>
 #include <algorithm>
+#include <fstream>
 #include "Light.h"
 #include "Plug.h"
 #include "Radiator.h"
@@ -17,11 +18,40 @@ int main(){
 	int temp = 5;
 	int TempMax = 30;
 	int TempMin = 5;
-	TempHum* test = new TempHum("name", 5, 1, end, temp);
-	TempHum test2 = *test;
 	list<Device*> House;
-	ChangeTemp(end, House, temp, TempMax, TempMin);
-	menu(end, NotEnd, House);
+
+	ofstream ofs;
+    ofs.open("house.txt", ofstream::out | ofstream::trunc);
+    ofs.close();
+
+	// ifstream ifs;
+    // streampos begin, EndF;
+    // ifs.open("house.txt", ifstream::out);
+    // begin = ifs.tellg();
+    // ifs.seekg(0, ios::end);
+    // end = ifs.tellg();
+    // Device Hold[(-1 * (begin - EndF)) / sizeof(Device)];
+    // ifs.read((char*)&House, begin - EndF);
+    // ifs.close();
+	
+	// House.push_front(new Speaker("test"));
+	// House.push_front(new Speaker("test2"));
+
+	// ChangeTemp(end, House, temp, TempMax, TempMin);
+	// menu(end, NotEnd, House);
+
+	// int count = 0;
+    // list<list<string>> hold;
+	// list<Device*>::iterator it(House.begin());
+	// while (it!=House.end()){
+	// 	hold.push_front((**(it++)).GetValues());
+    //     count ++;
+	// }
+
+	//ofs.open("house.txt", ios::app);
+    // ofs.write((char*)&hold, sizeof(hold));
+    // ofs.close();
+
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);
 	#endif

@@ -43,7 +43,7 @@ void Plug::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << this;
+    cout << *this;
     cout << "Its current power usage is : " << GetLive() << "\n"
          << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){

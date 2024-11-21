@@ -16,6 +16,7 @@ class LiveHistoric : virtual public Device{
         inline bool& GetEnd(){return end;};
         inline T GetLive(){return live;};
         inline queue<T> GetHistoric(){return historic;};
+        inline void SetHistoric(queue<T> historic){this->historic = historic;};
         inline int GetHistoricMax(){return HistoricMax;};
         inline int GetSensitivity(){return sensitivity;};
         void UpdateLive();

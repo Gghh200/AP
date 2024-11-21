@@ -4,13 +4,23 @@
 class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
     public:
         Radiator(string name, int& temp, bool& end, bool& NotEnd);
+        Radiator(string name, int& temp, bool& end, bool& NotEnd, int start, int length);
         inline int& GetTemp(){return temp;};
         void DisplayFunctions() override;
+        list<string> GetValues() override;
+
     private:
         int& temp;
 };
+
 Radiator::Radiator(string name, int& temp, bool& end, bool& NotEnd) : temp(temp) , Schedule(end), SleepTimer(NotEnd){
     SetName(name);
+}
+
+Radiator::Radiator(string name, int& temp, bool& end, bool& NotEnd, int start, int length) : temp(temp) , SleepTimer(NotEnd), Schedule(end){
+        this->SetName(name); 
+        SetOnOff(NotEnd);
+        StartSchedules(start, length);
 }
 
 #include "Radiator.h"
@@ -26,7 +36,7 @@ void Radiator::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << this;
+    cout << *this;
     cout << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){
             cout << "Is schedule starts at " << GetStart() << ":00 and last for " << GetLength() << " hours \n";
@@ -100,4 +110,14 @@ void Radiator::DisplayFunctions(){
             }
         }
     }
+}
+
+list<string> Radiator::GetValues(){
+    list<string> temp;
+    temp.push_front("Radiator");
+    temp.push_front(GetName());
+    temp.push_front(to_string(GetOnOff()));
+    temp.push_front(to_string(GetStart()));
+    temp.push_front(to_string(GetLength()));
+    return temp;
 }

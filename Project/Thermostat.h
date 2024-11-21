@@ -5,11 +5,19 @@
 using namespace std;
 
 class Thermostat : public OneClick::Schedule{
-        public:
-                inline Thermostat(string name, bool& end) : Schedule(end){this->SetName(name);};
-                void HeatingBoost();
-                void DisplayFunctions() override;
+    public:
+            inline Thermostat(string name, bool& end) : Schedule(end){this->SetName(name);};
+            Thermostat(string name, bool& end, bool& NotEnd, int start, int length);
+            void HeatingBoost();
+            void DisplayFunctions() override;
+            list<string> GetValues() override;
 };
+
+Thermostat::Thermostat(string name, bool& end, bool& NotEnd, int start, int length) : Schedule(end){
+        this->SetName(name); 
+        SetOnOff(NotEnd);
+        StartSchedules(start, length);
+}
 
 void Thermostat::HeatingBoost(){
     SetOnOff(true);
@@ -28,7 +36,7 @@ void Thermostat::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << this;
+    cout << *this;
     cout << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){
             cout << "Is schedule starts at " << GetStart() << ":00 and last for " << GetLength() << " hours \n";
@@ -88,4 +96,14 @@ void Thermostat::DisplayFunctions(){
             }
         }
     }
+}
+
+list<string> Thermostat::GetValues(){
+    list<string> temp;
+    temp.push_front("Radiator");
+    temp.push_front(GetName());
+    temp.push_front(to_string(GetOnOff()));
+    temp.push_front(to_string(GetStart()));
+    temp.push_front(to_string(GetLength()));
+    return temp;
 }

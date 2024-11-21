@@ -10,7 +10,7 @@ void Light::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << this;
+    cout << *this;
     cout << "Its brightness is : " << brightness << "\n"
          << "And is currently: " << IsOnOff << "\n"
          << "Its functions are: \n"

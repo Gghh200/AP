@@ -10,6 +10,7 @@ class Device{
                 inline void SetName(string name){this->name = name;};
                 friend ostream& operator<<(ostream& os, const Device& data);
                 virtual void DisplayFunctions() = 0;
+                virtual list<string> GetValues() = 0;
         private:
                 string name;
 };
