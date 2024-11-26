@@ -20,37 +20,48 @@ int main(){
 	int TempMin = 5;
 	list<Device*> House;
 
-	ofstream ofs;
-    ofs.open("house.txt", ofstream::out | ofstream::trunc);
-    ofs.close();
+	ifstream File;
+	File.open("house.txt",ios::in);
+	Device* Temp;
+	string number;
+	File.getline ((char*)number.c_str(), sizeof(number));
+	for(int i = 0; i < stoi(number); i++){
+		File.getline((char*)&(*Temp), sizeof(*Temp));
+		string type = Temp->GetType();
+		if(type == "Light"){
+			House.push_front(new Light(NotEnd));
+		}else if(type == "Plug"){
+			House.push_front(new Plug(end, NotEnd));
+		}else if(type == "Radiator"){
+			House.push_front(new Radiator(temp, end, NotEnd));
+		}else if(type == "Speaker"){
+			House.push_front(new Speaker());
+		}else if(type == "TempHum"){
+			House.push_front(new TempHum(end, temp));
+		}else if(type == "Thermostat"){
+			House.push_front(new Thermostat(end));
+		}
+		File.getline((char*)&(*House.front()), sizeof(*House.front()));
+	}
+	File.close();
 
-	// ifstream ifs;
-    // streampos begin, EndF;
-    // ifs.open("house.txt", ifstream::out);
-    // begin = ifs.tellg();
-    // ifs.seekg(0, ios::end);
-    // end = ifs.tellg();
-    // Device Hold[(-1 * (begin - EndF)) / sizeof(Device)];
-    // ifs.read((char*)&House, begin - EndF);
-    // ifs.close();
-	
-	// House.push_front(new Speaker("test"));
-	// House.push_front(new Speaker("test2"));
+	ChangeTemp(end, House, temp, TempMax, TempMin);
+	menu(end, NotEnd, House);
 
-	// ChangeTemp(end, House, temp, TempMax, TempMin);
-	// menu(end, NotEnd, House);
+	ofstream file;
+    file.open("house.txt", ofstream::out | ofstream::trunc);
+    file.close();
 
-	// int count = 0;
-    // list<list<string>> hold;
-	// list<Device*>::iterator it(House.begin());
-	// while (it!=House.end()){
-	// 	hold.push_front((**(it++)).GetValues());
-    //     count ++;
-	// }
-
-	//ofs.open("house.txt", ios::app);
-    // ofs.write((char*)&hold, sizeof(hold));
-    // ofs.close();
+	file.open("house.txt", ios::app);
+	file << to_string(House.size());
+	file << endl;
+	for(Device* device : House){
+		file.write((char*)&*device,sizeof(*device));
+   		file << endl;
+		file.write((char*)&*device,sizeof(*device));
+   		file << endl;
+	}
+	file.close();
 
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);

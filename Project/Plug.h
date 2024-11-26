@@ -5,6 +5,7 @@
 class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>{
     public:
         Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd);
+        inline Plug(bool& end, bool& NotEnd) : power(0), LiveHistoric(0, 0, end), Schedule(end), SleepTimer(NotEnd){}
         void DisplayFunctions() override;
         
     private:
@@ -14,6 +15,7 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
 
 Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end), SleepTimer(NotEnd){
     this->SetName(name);
+    this->SetType("Plug"); 
     UpdateLive();
 }
 
@@ -117,22 +119,6 @@ void Plug::DisplayFunctions(){
                 cin >> UserInput;
             }
         }
-    }
-}
-
-bool Another(){
-    string UserInput;
-    cout << "Wou;d you like another option (Y/N):";
-    cin >> UserInput;
-    while(true){
-            if((char)toupper(UserInput[0]) == 'Y'){
-                return true;
-            }else if((char)toupper(UserInput[0]) == 'N'){
-                return false;
-            }else{
-                cout << "Enter Y/N";
-                cin >> UserInput;
-            }
     }
 }
 

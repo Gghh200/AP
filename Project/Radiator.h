@@ -4,10 +4,9 @@
 class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
     public:
         Radiator(string name, int& temp, bool& end, bool& NotEnd);
-        Radiator(string name, int& temp, bool& end, bool& NotEnd, int start, int length);
+        Radiator(int& temp, bool& end, bool& NotEnd);
         inline int& GetTemp(){return temp;};
         void DisplayFunctions() override;
-        list<string> GetValues() override;
 
     private:
         int& temp;
@@ -15,13 +14,11 @@ class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
 
 Radiator::Radiator(string name, int& temp, bool& end, bool& NotEnd) : temp(temp) , Schedule(end), SleepTimer(NotEnd){
     SetName(name);
+    this->SetType("Radiator"); 
 }
 
-Radiator::Radiator(string name, int& temp, bool& end, bool& NotEnd, int start, int length) : temp(temp) , SleepTimer(NotEnd), Schedule(end){
-        this->SetName(name); 
-        SetOnOff(NotEnd);
-        StartSchedules(start, length);
-}
+Radiator::Radiator(int& temp, bool& end, bool& NotEnd) : temp(temp) , Schedule(end), SleepTimer(NotEnd){}
+
 
 #include "Radiator.h"
 
@@ -110,14 +107,4 @@ void Radiator::DisplayFunctions(){
             }
         }
     }
-}
-
-list<string> Radiator::GetValues(){
-    list<string> temp;
-    temp.push_front("Radiator");
-    temp.push_front(GetName());
-    temp.push_front(to_string(GetOnOff()));
-    temp.push_front(to_string(GetStart()));
-    temp.push_front(to_string(GetLength()));
-    return temp;
 }

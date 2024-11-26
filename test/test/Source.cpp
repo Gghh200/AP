@@ -105,35 +105,26 @@ int main(){
    Emp_1.Name="John";
    Emp_1.Employee_ID=2121;
    Emp_1.Salary=11000;
-   //Wriring this data to Employee.txt
+   //Writing this data to Employee.txt
    ofstream file1;
    file1.open("Employee.txt", ios::app);
+   file1 << "2";
+   file1 << endl;
    file1.write((char*)&Emp_1,sizeof(Emp_1));
    file1 << endl;
-    file1 << "one";
-    file1 << endl;
-    file1 << "two";
-    file1 << endl;
-    file1.write((char*)&Emp_1,sizeof(Emp_1));
-    file1 << endl;
-    file1 << "three";
+   file1.write((char*)&Emp_1,sizeof(Emp_1));
+   file1 << endl;
    file1.close();
 
    //Reading data from EMployee.txt
    ifstream file2;
    file2.open("Employee.txt",ios::in);
    Employee Emp_2;
-   file2.getline((char*)&Emp_2, sizeof(Emp_2));
-   file2.close();
-   file2.open("Employee.txt",ios::in);
-   file2.seekg(41);
-   string tttt;
-   file2.getline((char*)tttt.c_str(), sizeof(tttt));
-   char* yyyy = (char*)tttt.c_str();
-   file2.getline((char*)tttt.c_str(), sizeof(tttt));
-   yyyy = (char*)tttt.c_str();
-   Employee Emp_3;
-   file2.getline((char*)&Emp_3, sizeof(Emp_3));
+   string number;
+   file2.getline ((char*)number.c_str(), sizeof(string));
+   for(int i = 0; i < stoi(number); i++){
+      file2.getline((char*)&Emp_2, sizeof(Emp_2));
+   }
    file2.close();
    return 0;
 }

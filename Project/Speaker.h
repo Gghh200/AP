@@ -3,13 +3,12 @@
 
 class Speaker : public OneClick{
         public:
-                inline Speaker(string name) : Volume(0), MaxVolume(10){this->SetName(name);};
+                inline Speaker() : Volume(0), MaxVolume(10){};
                 inline Speaker(string name, int Volume, int MaxVolume, bool OnOff);
                 inline void setVolume(int Volume){this->Volume = Volume;};
                 inline void volumeUp(){if(Volume != MaxVolume) Volume++;};
                 inline void volumeDown(){if(Volume != 0) Volume--;};
                 void DisplayFunctions() override;
-                list<string> GetValues() override;
 
         private:
                 int Volume;
@@ -18,6 +17,7 @@ class Speaker : public OneClick{
 
 Speaker::Speaker(string name, int Volume, int MaxVolume, bool OnOff) : Volume(Volume), MaxVolume(MaxVolume){
     this->SetName(name); 
+    this->SetType("Speaker"); 
     SetOnOff(OnOff);
 }
 
@@ -65,14 +65,4 @@ void Speaker::DisplayFunctions(){
             }
         }
     }
-}
-
-list<string> Speaker::GetValues(){
-    list<string> temp;
-    temp.push_front("speaker");
-    temp.push_front(GetName());
-    temp.push_front(to_string(Volume));
-    temp.push_front(to_string(MaxVolume));
-    temp.push_front(to_string(GetOnOff()));
-    return temp;
 }
