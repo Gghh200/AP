@@ -1,7 +1,7 @@
 #pragma once
 #include "OneClick.h"
 
-class Speaker : public OneClick{
+class Speaker : public OneClick, public Device{
         public:
                 inline Speaker() : Volume(0), MaxVolume(10){};
                 inline Speaker(string name, int MaxVolume);

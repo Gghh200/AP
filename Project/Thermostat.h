@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-class Thermostat : public OneClick::Schedule{
+class Thermostat : public OneClick::Schedule, public Device{
     public:
             inline Thermostat(bool& end) : Schedule(end){};
             Thermostat(string name, bool& end);
@@ -19,7 +19,7 @@ Thermostat::Thermostat(string name, bool& end) : Schedule(end){
 
 void Thermostat::HeatingBoost(){
     SetOnOff(true);
-    sleep(3600);
+    this_thread::sleep_for(3600s);
     SetOnOff(false);
 }
 

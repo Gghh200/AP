@@ -21,7 +21,6 @@ void Device::DisplayFunctions(){
         cout << "";
 }
 
-
 ostream& operator<<(ostream& os, const Device& data)
 {
     os << "Name is " << data.GetName() << "\n";

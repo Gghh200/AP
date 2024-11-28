@@ -1,7 +1,7 @@
 #pragma once
 #include "OneClick.h"
 
-class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
+class Radiator : public OneClick::SleepTimer, public OneClick::Schedule, public Device{
     public:
         Radiator(string name, int& temp, bool& end);
         Radiator(int& temp, bool& end);
@@ -14,7 +14,7 @@ class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
 
 Radiator::Radiator(string name, int& temp, bool& end) : temp(temp) , Schedule(end){
     SetName(name);
-    this->SetType("Radiator"); 
+    this->SetType("Radiator");
 }
 
 Radiator::Radiator(int& temp, bool& end) : temp(temp) , Schedule(end){}

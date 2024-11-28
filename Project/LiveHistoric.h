@@ -1,16 +1,15 @@
 #pragma once
 #include "Device.h"
-#include <unistd.h>
 #include <queue>
 #include <thread>
 
 template <typename T>
-class LiveHistoric : virtual public Device{
+class LiveHistoric{
     public:
         void Update();
     protected:
         inline LiveHistoric() : live(NULL), HistoricMax(0), sensitivity(0), end(false){};
-        LiveHistoric(int HistoricMax, float sensitivity, bool& end);
+        LiveHistoric(int HistoricMax, int sensitivity, bool& end);
         ~LiveHistoric();
         inline void SetLive(T &live){this->live = live;};
         inline bool& GetEnd(){return end;};
@@ -26,12 +25,12 @@ class LiveHistoric : virtual public Device{
         T live;
         queue<T> historic;
         int HistoricMax;
-        float sensitivity;
+        int sensitivity;
         bool& end;
 };
 
 template <typename T>
-LiveHistoric<T>::LiveHistoric(int HistoricMax, float sensitivity, bool& end) : HistoricMax(HistoricMax), sensitivity(sensitivity), end(end){}
+LiveHistoric<T>::LiveHistoric(int HistoricMax, int sensitivity, bool& end) : HistoricMax(HistoricMax), sensitivity(sensitivity), end(end){}
 
 template <typename T>
 LiveHistoric<T>::~LiveHistoric(){
@@ -60,7 +59,7 @@ void LiveHistoric<T>::Update(){
             historic.push(live);
         }
         x = 0;
-        sleep(sensitivity);
+        this_thread::sleep_for(chrono::seconds(sensitivity));
     }
 }
 

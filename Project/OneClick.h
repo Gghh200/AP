@@ -1,14 +1,13 @@
 #pragma once
 #include "Device.h"
 #include <iostream>
-#include <unistd.h>
 #include <ctime>
 #include <thread>
 using namespace std;
 
 using namespace std;
 
-class OneClick : virtual public Device{
+class OneClick{
         public:
                 inline void ChangeOnOff() {OnOff = !OnOff;};
                 inline bool GetOnOff() const {return OnOff;};
@@ -38,7 +37,7 @@ inline void OneClick::SleepTimer::call(int SleepFor){
 
 inline void OneClick::SleepTimer::calls(int SleepFor){
     OnOff = true;
-    sleep(SleepFor);
+    this_thread::sleep_for(chrono::seconds(SleepFor));
     OnOff = false;
 }
 
@@ -66,9 +65,9 @@ void OneClick::Schedule::timeChecks(bool& end){
     while(Schedules && end){
         if((time(0) % 3600 ) / 3600 == SleepStart){
             ChangeOnOff();
-            sleep(SleepLength * 3600);
+            this_thread::sleep_for(chrono::seconds(SleepLength * 3600));
         }else{
-            sleep(3600);
+            this_thread::sleep_for(3600s);
         }
     }
 }

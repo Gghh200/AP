@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-class TempHum : public LiveHistoric<array<int, 2>>{
+class TempHum : public LiveHistoric<array<int, 2>>, public Device{
     public:
         TempHum(bool& end, int& temp);
         TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp);
@@ -22,7 +22,7 @@ TempHum::TempHum(bool& end, int& temp) : humidityMax(0), humidityMin(0), humidit
 
 TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : humidityMax(95), humidityMin(65), humidity(65), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
     this->SetName(name);
-    this->SetType("TempHum"); 
+    this->SetType("TempHum");
     this->UpdateLive();
     array<int, 2> value = {temp, humidityMin};
     SetLive(value);
@@ -47,5 +47,5 @@ void TempHum::DisplayFunctions(){
          << "The current temp is: " << (GetLive()[0]) << "\n"
          << "The current Humidity is: " << GetLive()[1] << "\n"
          << "This window will close in 10 seconds \n";
-    sleep(10);
+    this_thread::sleep_for(10s);
 }

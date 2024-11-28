@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-class Light : public OneClick::SleepTimer{
+class Light : public OneClick::SleepTimer, public Device{
         public:
                 inline Light(string name) : brightness(0){this->SetName(name); this->SetType("Light");};
                 inline Light() : brightness(0){};

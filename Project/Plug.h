@@ -2,7 +2,7 @@
 #include "OneClick.h"
 #include "LiveHistoric.h"
 
-class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>{
+class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>, public Device{
     public:
         Plug(string name, int HistoricMax, float sensitivity, bool& end, int power);
         inline Plug(bool& end) : power(0), LiveHistoric(0, 0, end), Schedule(end){}
@@ -15,7 +15,7 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
 
 Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end){
     this->SetName(name);
-    this->SetType("Plug"); 
+    this->SetType("Plug");
     UpdateLive();
 }
 
