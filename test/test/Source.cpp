@@ -98,33 +98,5 @@ public:
    int Salary;
 };
 int main(){
-    ofstream ifs;
-    ifs.open("Employee.txt", std::ofstream::out | std::ofstream::trunc);
-    ifs.close();
-   Employee Emp_1;
-   Emp_1.Name="John";
-   Emp_1.Employee_ID=2121;
-   Emp_1.Salary=11000;
-   //Writing this data to Employee.txt
-   ofstream file1;
-   file1.open("Employee.txt", ios::app);
-   file1 << "2";
-   file1 << endl;
-   file1.write((char*)&Emp_1,sizeof(Emp_1));
-   file1 << endl;
-   file1.write((char*)&Emp_1,sizeof(Emp_1));
-   file1 << endl;
-   file1.close();
-
-   //Reading data from EMployee.txt
-   ifstream file2;
-   file2.open("Employee.txt",ios::in);
-   Employee Emp_2;
-   string number;
-   file2.getline ((char*)number.c_str(), sizeof(string));
-   for(int i = 0; i < stoi(number); i++){
-      file2.getline((char*)&Emp_2, sizeof(Emp_2));
-   }
-   file2.close();
-   return 0;
+   
 }

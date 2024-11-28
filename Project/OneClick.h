@@ -26,24 +26,20 @@ class OneClick : virtual public Device{
 
 class OneClick::SleepTimer : virtual public OneClick{
         protected:
-                inline SleepTimer(bool& NotEnd) : NotEnd(NotEnd){};
                 inline void call(int SleepFor);
         private:
-                inline void calls(int SleepFor, bool& NotEnd);
-                bool& NotEnd;
+                inline void calls(int SleepFor);
 };
 
 inline void OneClick::SleepTimer::call(int SleepFor){
-        NotEnd = true;
-        thread thread1(&OneClick::SleepTimer::calls, this, SleepFor, ref(NotEnd));
+        thread thread1(&OneClick::SleepTimer::calls, this, SleepFor);
         thread1.detach();
 }
 
-inline void OneClick::SleepTimer::calls(int SleepFor, bool& NotEnd){
+inline void OneClick::SleepTimer::calls(int SleepFor){
     OnOff = true;
     sleep(SleepFor);
     OnOff = false;
-    NotEnd = false;
 }
 
 

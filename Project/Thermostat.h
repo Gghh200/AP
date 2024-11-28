@@ -7,16 +7,14 @@ using namespace std;
 class Thermostat : public OneClick::Schedule{
     public:
             inline Thermostat(bool& end) : Schedule(end){};
-            Thermostat(string name, bool& end, bool& NotEnd, int start, int length);
+            Thermostat(string name, bool& end);
             void HeatingBoost();
             void DisplayFunctions() override;
 };
 
-Thermostat::Thermostat(string name, bool& end, bool& NotEnd, int start, int length) : Schedule(end){
+Thermostat::Thermostat(string name, bool& end) : Schedule(end){
         this->SetName(name); 
-        this->SetType("Thermostat"); 
-        SetOnOff(NotEnd);
-        StartSchedules(start, length);
+        this->SetType("Thermostat");
 }
 
 void Thermostat::HeatingBoost(){

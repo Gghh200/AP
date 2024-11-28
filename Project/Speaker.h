@@ -4,7 +4,7 @@
 class Speaker : public OneClick{
         public:
                 inline Speaker() : Volume(0), MaxVolume(10){};
-                inline Speaker(string name, int Volume, int MaxVolume, bool OnOff);
+                inline Speaker(string name, int MaxVolume);
                 inline void setVolume(int Volume){this->Volume = Volume;};
                 inline void volumeUp(){if(Volume != MaxVolume) Volume++;};
                 inline void volumeDown(){if(Volume != 0) Volume--;};
@@ -15,10 +15,9 @@ class Speaker : public OneClick{
                 int MaxVolume;
 };
 
-Speaker::Speaker(string name, int Volume, int MaxVolume, bool OnOff) : Volume(Volume), MaxVolume(MaxVolume){
+Speaker::Speaker(string name, int MaxVolume) : Volume(0), MaxVolume(MaxVolume){
     this->SetName(name); 
-    this->SetType("Speaker"); 
-    SetOnOff(OnOff);
+    this->SetType("Speaker");
 }
 
 void Speaker::DisplayFunctions(){

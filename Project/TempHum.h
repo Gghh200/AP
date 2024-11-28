@@ -7,7 +7,7 @@ using namespace std;
 class TempHum : public LiveHistoric<array<int, 2>>{
     public:
         TempHum(bool& end, int& temp);
-        TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp, int humidity, int humidityMax, int humidityMin);
+        TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp);
         void DisplayFunctions() override;
         
     private:
@@ -20,7 +20,7 @@ class TempHum : public LiveHistoric<array<int, 2>>{
 
 TempHum::TempHum(bool& end, int& temp) : humidityMax(0), humidityMin(0), humidity(0), temp(temp), LiveHistoric(0, 0, end){};
 
-TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp, int humidity, int humidityMax, int humidityMin) : humidityMax(humidityMax), humidityMin(humidityMin), humidity(humidity), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
+TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : humidityMax(95), humidityMin(65), humidity(65), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
     this->SetName(name);
     this->SetType("TempHum"); 
     this->UpdateLive();

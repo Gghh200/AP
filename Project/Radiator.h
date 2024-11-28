@@ -3,8 +3,8 @@
 
 class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
     public:
-        Radiator(string name, int& temp, bool& end, bool& NotEnd);
-        Radiator(int& temp, bool& end, bool& NotEnd);
+        Radiator(string name, int& temp, bool& end);
+        Radiator(int& temp, bool& end);
         inline int& GetTemp(){return temp;};
         void DisplayFunctions() override;
 
@@ -12,12 +12,12 @@ class Radiator : public OneClick::SleepTimer, public OneClick::Schedule{
         int& temp;
 };
 
-Radiator::Radiator(string name, int& temp, bool& end, bool& NotEnd) : temp(temp) , Schedule(end), SleepTimer(NotEnd){
+Radiator::Radiator(string name, int& temp, bool& end) : temp(temp) , Schedule(end){
     SetName(name);
     this->SetType("Radiator"); 
 }
 
-Radiator::Radiator(int& temp, bool& end, bool& NotEnd) : temp(temp) , Schedule(end), SleepTimer(NotEnd){}
+Radiator::Radiator(int& temp, bool& end) : temp(temp) , Schedule(end){}
 
 
 #include "Radiator.h"

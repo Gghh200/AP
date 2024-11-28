@@ -11,11 +11,16 @@ class Device{
                 inline string GetType() const {return type;};
                 inline void SetType(string type){this->type = type;};
                 friend ostream& operator<<(ostream& os, const Device& data);
-                virtual void DisplayFunctions() = 0;
+                virtual void DisplayFunctions();
         private:
                 string name;
                 string type;
 };
+
+void Device::DisplayFunctions(){
+        cout << "";
+}
+
 
 ostream& operator<<(ostream& os, const Device& data)
 {

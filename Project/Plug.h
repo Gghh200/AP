@@ -4,8 +4,8 @@
 
 class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>{
     public:
-        Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd);
-        inline Plug(bool& end, bool& NotEnd) : power(0), LiveHistoric(0, 0, end), Schedule(end), SleepTimer(NotEnd){}
+        Plug(string name, int HistoricMax, float sensitivity, bool& end, int power);
+        inline Plug(bool& end) : power(0), LiveHistoric(0, 0, end), Schedule(end){}
         void DisplayFunctions() override;
         
     private:
@@ -13,7 +13,7 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
         int power;
 };
 
-Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power, bool& NotEnd) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end), SleepTimer(NotEnd){
+Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end){
     this->SetName(name);
     this->SetType("Plug"); 
     UpdateLive();
