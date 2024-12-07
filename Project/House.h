@@ -1,7 +1,9 @@
 #pragma once
+#include <iostream>
 #include <list>
 #include <algorithm>
 #include <fstream>
+#include <sstream>
 #include "Light.h"
 #include "Plug.h"
 #include "Radiator.h"
@@ -9,19 +11,22 @@
 #include "TempHum.h"
 #include "Thermostat.h"
 #include "DeviceFact.h"
+using namespace std;
 
 class House{
     public:
-            inline House(int TempMax, int TempMin);
+            inline House(int TempMax, int TempMin, int HumidityMax, int HumidityMin);
             inline void ChangeEnd(){end = !end;};
-            inline int GetSize(){return devices.size();};
+            inline int GetSize() const {return devices.size();};
+			inline list<Device*> GetDevices() const {return devices;};
 			inline void push(Device* device){devices.push_front(device);};
-            void UpdateTemp();
+            void Update();
             void display();
             void NameSort();
             void TypeSort();
             Device* find(string name);
             void Add();
+			void AddFromFile(string data);
             bool continues();
 
     private:
@@ -31,13 +36,16 @@ class House{
         int TempMax;
         int TempMin;
         DeviceFact Factory;
+		int humidity;
+        int HumidityMax;
+        int HumidityMin;
 };
 
 
-House::House(int TempMax, int TempMin) : TempMax(TempMax), TempMin(TempMin), temp((TempMax + TempMin) / 2){
-        thread thread1(&House::UpdateTemp, this); thread1.detach();
+House::House(int TempMax, int TempMin, int HumidityMax, int HumidityMin) : TempMax(TempMax), TempMin(TempMin), HumidityMax(HumidityMax), HumidityMin(HumidityMin), temp((TempMax + TempMin) / 2), humidity((HumidityMax + HumidityMin) / 2){
+        thread thread1(&House::Update, this); thread1.detach();
 }
-void House::UpdateTemp(){
+void House::Update(){
 	while(end){
 		for(Device* device : devices){
 			if(typeid(*device) == typeid(Thermostat) && dynamic_cast<Thermostat*>(device)->GetOnOff()){
@@ -53,6 +61,12 @@ void House::UpdateTemp(){
 		if(temp != TempMin){
 			temp -= 1;
 		}
+		srand(time(0));
+		if(rand() % 2 == 0 && humidity <= HumidityMin){
+            humidity += rand() % 3;
+        }else{
+            humidity -= rand() % 3;
+        }
 		this_thread::sleep_for(1800s);
 	}
 }
@@ -60,7 +74,7 @@ void House::UpdateTemp(){
 void House::display(){
 	list<Device*>::iterator it(devices.begin());
 	while (it!=devices.end()){
-		cout << (*(it++));
+		cout << (*(it++))->GetName() << "\n";
 	}
 }
 
@@ -94,7 +108,7 @@ void House::Add(){
 		}
 	cout << "Enter name for the device \n";
 	cin >> name;
-	devices.push_front(Factory.createDevice(stoi(type), name, end, temp));
+	devices.push_front(Factory.createDevice(stoi(type), name, end, temp, humidity));
 }
 
 bool House::continues(){
@@ -126,4 +140,28 @@ void House::TypeSort(){
         }
         return typeid(first).name() < typeid(second).name(); 
     });
+}
+
+void House::AddFromFile(string data){
+	string hold;
+	stringstream streams(data);
+	list<string> Data;
+	while(getline(streams, hold, ','))
+	{
+		Data.push_back(hold);
+	}
+	if(Data.front() == "Light"){
+		Data.pop_front();
+		devices.push_back(new Light(Data));
+	}else if(Data.front() == "Plug"){
+		devices.push_back(new Plug(Data, end));
+	}else if(Data.front() == "Radiator"){
+		devices.push_back(new Radiator(Data, end));
+	}else if(Data.front() == "Speaker"){
+		devices.push_back(new Speaker(Data));
+	}else if(Data.front() == "TempHum"){
+		devices.push_back(new TempHum(Data, end, temp, humidity));
+	}else if(Data.front() == "Thermostat"){
+		devices.push_back(new Thermostat(Data, end));
+	}
 }

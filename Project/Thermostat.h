@@ -6,15 +6,16 @@ using namespace std;
 
 class Thermostat : public OneClick::Schedule, public Device{
     public:
+            Thermostat(list<string> Data, bool& end);
             inline Thermostat(bool& end) : Schedule(end){};
             Thermostat(string name, bool& end);
             void HeatingBoost();
             void DisplayFunctions() override;
+            ostream& GetValuse(ostream& os) const override;
 };
 
 Thermostat::Thermostat(string name, bool& end) : Schedule(end){
-        this->SetName(name); 
-        this->SetType("Thermostat");
+        this->SetName(name);
 }
 
 void Thermostat::HeatingBoost(){
@@ -34,8 +35,8 @@ void Thermostat::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << *this;
-    cout << "And is currently: " << IsOnOff << "\n";
+    cout << "Name is " << GetName() << "\n"
+         << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){
             cout << "Is schedule starts at " << GetStart() << ":00 and last for " << GetLength() << " hours \n";
          }
@@ -43,7 +44,7 @@ void Thermostat::DisplayFunctions(){
          << "1: Switch On or Off \n"
          << "2: Set/Replace a schedule \n"
          << "3: Delete Schedule if there is one \n"
-         << "4: Exit Menu";
+         << "4: Exit Menu \n";
 
     while(end){
         cin >> UserInput;
@@ -59,19 +60,16 @@ void Thermostat::DisplayFunctions(){
                 int start;
                 int length;
                 string NewUserInput;
-                cout << "Enter start time eg (1900): ";
-                cin >> NewUserInput;
                 while(true){
-                    if(NewUserInput.length() == 4 && isNumber(NewUserInput)){
-                        for(int i = 3; i > 1; i--){
-                            NewUserInput.erase(NewUserInput.begin() + i);
-                        }
+                    cout << "Enter start time eg (19): \n";
+                    cin >> NewUserInput;
+                    if(NewUserInput.length() == 2 && isNumber(NewUserInput)){
                         start = atoi((char*)NewUserInput.data());
                         break;
                     }
                 }
                 while(true){
-                    cout << "Enter length in hours: ";
+                    cout << "Enter length in hours: \n";
                     cin >> NewUserInput;
                     if(isNumber(NewUserInput)){
                         length = atoi((char*)NewUserInput.data());
@@ -89,9 +87,28 @@ void Thermostat::DisplayFunctions(){
                 end = false;
             }
             default:{
-                cout << "Enter 1,2,3,4:";
+                cout << "Enter 1,2,3,4: \n";
                 cin >> UserInput;
             }
         }
     }
+}
+
+ostream& Thermostat::GetValuse(ostream& os) const{
+    os << "Thermostat," << GetName() << "," << GetStart() << "," << GetLength() << "," << GetOnOff() << "," << "\n";
+    return os;
+}
+
+Thermostat::Thermostat(list<string> Data, bool& end) : Schedule(end){
+    SetName(Data.front());
+    Data.pop_front();
+    string hold1 = Data.front();
+    Data.pop_front();
+    string hold2 = Data.front();
+    Data.pop_front();
+    StartSchedules(stoi(hold1), stoi(hold2));
+    if(Data.front() == "1"){
+        ChangeOnOff();
+    }
+    Data.pop_front();
 }

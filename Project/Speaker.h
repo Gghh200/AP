@@ -3,21 +3,22 @@
 
 class Speaker : public OneClick, public Device{
         public:
-                inline Speaker() : Volume(0), MaxVolume(10){};
+                Speaker(list<string> Data);
+                inline Speaker() : volume(0), MaxVolume(10){};
                 inline Speaker(string name, int MaxVolume);
-                inline void setVolume(int Volume){this->Volume = Volume;};
-                inline void volumeUp(){if(Volume != MaxVolume) Volume++;};
-                inline void volumeDown(){if(Volume != 0) Volume--;};
+                inline void Setvolume(int volume){this->volume = volume;};
+                inline void volumeUp(){if(volume != MaxVolume) volume++;};
+                inline void volumeDown(){if(volume != 0) volume--;};
                 void DisplayFunctions() override;
+                ostream& GetValuse(ostream& os) const override;
 
         private:
-                int Volume;
+                int volume;
                 int MaxVolume;
 };
 
-Speaker::Speaker(string name, int MaxVolume) : Volume(0), MaxVolume(MaxVolume){
-    this->SetName(name); 
-    this->SetType("Speaker");
+Speaker::Speaker(string name, int MaxVolume) : volume(0), MaxVolume(MaxVolume){
+    this->SetName(name);
 }
 
 void Speaker::DisplayFunctions(){
@@ -30,14 +31,14 @@ void Speaker::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << *this;
-    cout << "Its Volume is : " << Volume << "\n"
+    cout << "Name is " << GetName() << "\n"
+         << "Its volume is : " << volume << "\n"
          << "And it's currently: " << IsOnOff << "\n"
          << "Its functions are: \n"
-         << "1: Volume Up \n"
-         << "2: Volume Down \n"
+         << "1: volume Up \n"
+         << "2: volume Down \n"
          << "3: Switch On or Off \n"
-         << "4: Exit Menu";
+         << "4: Exit Menu \n";
 
     while(end){
         cin >> UserInput;
@@ -59,9 +60,27 @@ void Speaker::DisplayFunctions(){
                 end = false;
             }
             default:{
-                cout << "Enter 1,2,3:";
+                cout << "Enter 1,2,3: \n";
                 cin >> UserInput;
             }
         }
     }
+}
+
+ostream& Speaker::GetValuse(ostream& os) const{
+    os << "Speaker," << GetName() << "," << volume << "," << MaxVolume << "," << GetOnOff() << "\n";
+    return os;
+}
+
+Speaker::Speaker(list<string> Data){
+    SetName(Data.front());
+    Data.pop_front();
+    volume = stoi(Data.front());
+    Data.pop_front();
+    MaxVolume = stoi(Data.front());
+    Data.pop_front();
+    if(Data.front() == "1"){
+        ChangeOnOff();
+    }
+    Data.pop_front();
 }

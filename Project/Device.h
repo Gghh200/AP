@@ -5,24 +5,20 @@ using namespace std;
 
 class Device{
         public:
-                inline Device() : name("NULL"){};
                 inline string GetName() const {return name;};
-                inline void SetName(string name){this->name = name;};
-                inline string GetType() const {return type;};
-                inline void SetType(string type){this->type = type;};
+                virtual void DisplayFunctions() = 0;
                 friend ostream& operator<<(ostream& os, const Device& data);
-                virtual void DisplayFunctions();
+                virtual ostream& GetValuse(ostream& os) const = 0;
+
+        protected:
+                inline Device() : name("NULL"){};
+                inline void SetName(string name){this->name = name;};
+
+
         private:
                 string name;
-                string type;
 };
 
-void Device::DisplayFunctions(){
-        cout << "";
-}
-
-ostream& operator<<(ostream& os, const Device& data)
-{
-    os << "Name is " << data.GetName() << "\n";
-    return os;
+ostream& operator<<(ostream& os, const Device& data){
+        return data.GetValuse(os);
 }

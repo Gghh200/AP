@@ -7,17 +7,21 @@ template <typename T>
 class LiveHistoric{
     public:
         void Update();
+        inline queue<T> GetHistoric() const {return historic;};
+        
     protected:
         inline LiveHistoric() : live(NULL), HistoricMax(0), sensitivity(0), end(false){};
         LiveHistoric(int HistoricMax, int sensitivity, bool& end);
         ~LiveHistoric();
         inline void SetLive(T &live){this->live = live;};
-        inline bool& GetEnd(){return end;};
-        inline T GetLive(){return live;};
-        inline queue<T> GetHistoric(){return historic;};
+        inline bool& GetEnd() const {return end;};
+        inline T GetLive() const {return live;};
         inline void SetHistoric(queue<T> historic){this->historic = historic;};
-        inline int GetHistoricMax(){return HistoricMax;};
-        inline int GetSensitivity(){return sensitivity;};
+        inline int GetHistoricMax() const {return HistoricMax;};
+        inline void SetHistoricMax(int HistoricMax) {this->HistoricMax = HistoricMax;};
+        inline int GetSensitivity() const {return sensitivity;};
+        inline void SetSensitivity(int Sensitivity) {this->Sensitivity = Sensitivity;};
+        void AddToHistoric(T data);
         void UpdateLive();
         virtual void incrementLive() = 0;
 
@@ -63,3 +67,7 @@ void LiveHistoric<T>::Update(){
     }
 }
 
+template <typename T>
+void LiveHistoric<T>::AddToHistoric(T data){
+    historic.push(data);
+}

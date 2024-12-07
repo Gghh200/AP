@@ -7,10 +7,10 @@
 
 class DeviceFact{
 	public:
-		 static Device* createDevice(int type, const string& name, bool& end, int& temp);
+		 static Device* createDevice(int type, const string& name, bool& end, int& temp, int& humidity);
 };
 
-Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& temp) {
+Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& temp, int& humidity) {
 	 switch (type) {
 		 case 1: 
 			{ 
@@ -33,7 +33,7 @@ Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& t
 		 }
         case 3: 
         { 
-            return new Radiator(name, temp, end);
+            return new Radiator(name, end);
             break;
         }
         case 4:
@@ -53,7 +53,7 @@ Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& t
             cin >> HistoricMax;
             cout << "Enter how often are reading taken in seconds \n";
             cin >> sensitivity;
-			return new TempHum(name, HistoricMax, sensitivity, end, temp);
+			return new TempHum(name, HistoricMax, sensitivity, end, temp, humidity);
 			break;
 		 }
         case 6: 

@@ -6,14 +6,15 @@ using namespace std;
 
 class Light : public OneClick::SleepTimer, public Device{
         public:
-                inline Light(string name) : brightness(0){this->SetName(name); this->SetType("Light");};
-                inline Light() : brightness(0){};
-                inline void setBrightness(int brightness){this->brightness = brightness;};
-                void DisplayFunctions() override;
-        private:
-                int brightness;
-};
+            Light(list<string> Data);
+            inline Light(string name) : brightness(0){this->SetName(name);};
+            inline void setBrightness(int brightness){this->brightness = brightness;};
+            void DisplayFunctions() override;
+            ostream& GetValuse(ostream& os) const override;
 
+        private:
+            int brightness;
+};
 
 void Light::DisplayFunctions(){
     bool Another();
@@ -25,20 +26,20 @@ void Light::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << *this;
-    cout << "Its brightness is : " << brightness << "\n"
+    cout << "Name is " << GetName() << "\n"
+         << "Its brightness is : " << brightness << "\n"
          << "And is currently: " << IsOnOff << "\n"
          << "Its functions are: \n"
          << "1: Change brightness \n"
          << "2: Switch On or Off \n"
-         << "3: Exit Menu";
+         << "3: Exit Menu \n";
 
     while(end){
         cin >> UserInput;
         switch(UserInput[0]) {
             case '1':{
                 int NewBrightness;
-                cout << "Enter new brightness";
+                cout << "Enter new brightness: \n";
                 cin >> NewBrightness;
                 if(!Another()){
                     end = false;
@@ -56,7 +57,7 @@ void Light::DisplayFunctions(){
                 end = false;
             }
             default:{
-                cout << "Enter 1,2,3:";
+                cout << "Enter 1,2,3: \n";
                 cin >> UserInput;
             }
         }
@@ -65,7 +66,7 @@ void Light::DisplayFunctions(){
 
 bool Another(){
     string UserInput;
-    cout << "Wou;d you like another option (Y/N):";
+    cout << "Would you like another option (Y/N): \n";
     cin >> UserInput;
     while(true){
             if((char)toupper(UserInput[0]) == 'Y'){
@@ -73,8 +74,24 @@ bool Another(){
             }else if((char)toupper(UserInput[0]) == 'N'){
                 return false;
             }else{
-                cout << "Enter Y/N";
+                cout << "Enter Y/N \n";
                 cin >> UserInput;
             }
     }
+}
+
+ostream& Light::GetValuse(ostream& os) const{
+    os << "Light," << GetName() << "," << brightness << "," << GetOnOff() << "\n";
+    return os;
+}
+
+Light::Light(list<string> Data){
+    SetName(Data.front());
+    Data.pop_front();
+    brightness = stoi(Data.front());
+    Data.pop_front();
+    if(Data.front() == "1"){
+        ChangeOnOff();
+    }
+    Data.pop_front();
 }

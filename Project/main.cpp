@@ -4,17 +4,16 @@
 void menu(House& house);
 
 int main(){
-	House house = House(25, 15);
+	House house = House(25, 15, 60, 90);
 
-	ifstream File;
-	File.open("house.txt",ios::in);
-	Device Temp;
-	string number;
-	File.getline ((char*)number.c_str(), sizeof(number));
-	for(int i = 0; i < stoi(number); i++){
-		
-	}
-	File.close();
+	ifstream File("house.txt",ios::in);
+	string Hold;
+	if (File.is_open()) {
+        while (getline(File, Hold)) {
+            house.AddFromFile(Hold);
+        }
+        File.close();
+    }
 
 	menu(house);
 	
@@ -23,8 +22,9 @@ int main(){
     file.close();
 
 	file.open("house.txt", ios::app);
-	file << to_string(house.GetSize());
-	file << endl;
+	for(Device* device : house.GetDevices()){
+		file << *device << endl;
+	}
 
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);
@@ -37,7 +37,8 @@ void menu(House& house){
 	house.display();
 	string UserInput;
 while (exit){
-	cout << "[device name]: Perform that device’s one-click action \n" 
+	LiveHistoric<array<int, 2>>* test;
+	cout << "[device name]: Turn that device on or off \n" 
 		<< "1: List devices \n"
 		<< "2: Sort by name \n"
 		<< "3: Sort by device type (by name as secondary order) \n"
@@ -78,6 +79,7 @@ while (exit){
 			case '5':{
 				house.Add();
 				exit = house.continues();
+				test = dynamic_cast<LiveHistoric<array<int, 2>>*>(house.GetDevices().front());
 				break;
 			}
 			case '6':{
@@ -87,7 +89,7 @@ while (exit){
 			}
 			default:{
 				Device* current = house.find(UserInput);
-				if(current != nullptr){
+				if(current == nullptr){
 					cout << "Couldn't find device \n";
 				}
 				if(OneClick* test = dynamic_cast<OneClick*>(current); test == nullptr){

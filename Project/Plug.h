@@ -4,9 +4,10 @@
 
 class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>, public Device{
     public:
+        Plug(list<string> Data, bool& end);
         Plug(string name, int HistoricMax, float sensitivity, bool& end, int power);
-        inline Plug(bool& end) : power(0), LiveHistoric(0, 0, end), Schedule(end){}
         void DisplayFunctions() override;
+        ostream& GetValuse(ostream& os) const;
         
     private:
         void incrementLive() override;
@@ -15,7 +16,6 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
 
 Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end){
     this->SetName(name);
-    this->SetType("Plug");
     UpdateLive();
 }
 
@@ -45,8 +45,8 @@ void Plug::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << *this;
-    cout << "Its current power usage is : " << GetLive() << "\n"
+    cout << "Name is " << GetName() << "\n"
+         << "Its current power usage is : " << GetLive() << "\n"
          << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){
             cout << "Is schedule starts at " << GetStart() << ":00 and last for " << GetLength() << " hours \n";
@@ -56,7 +56,7 @@ void Plug::DisplayFunctions(){
          << "2: Set/Replace a schedule \n"
          << "3: Delete Schedule if there is one \n"
          << "4: Sleep Timer \n"
-         << "5: Exit Menu";
+         << "5: Exit Menu \n";
 
     while(end){
         cin >> UserInput;
@@ -72,19 +72,16 @@ void Plug::DisplayFunctions(){
                 int start;
                 int length;
                 string NewUserInput;
-                cout << "Enter start time eg (1900): ";
+                cout << "Enter start hour eg (19): \n";
                 cin >> NewUserInput;
                 while(true){
-                    if(NewUserInput.length() == 4 && isNumber(NewUserInput)){
-                        for(int i = 3; i > 1; i--){
-                            NewUserInput.erase(NewUserInput.begin() + i);
-                        }
+                    if(NewUserInput.length() == 2 && isNumber(NewUserInput)){
                         start = atoi((char*)NewUserInput.data());
                         break;
                     }
                 }
                 while(true){
-                    cout << "Enter length in hours: ";
+                    cout << "Enter length in hours: \n";
                     cin >> NewUserInput;
                     if(isNumber(NewUserInput)){
                         length = atoi((char*)NewUserInput.data());
@@ -102,7 +99,7 @@ void Plug::DisplayFunctions(){
                 int length;
                 string NewUserInput;
                 while(true){
-                    cout << "Enter how long the device should be on for in seconds: ";
+                    cout << "Enter how long the device should be on for in seconds: \n";
                     cin >> NewUserInput;
                     if(isNumber(NewUserInput)){
                         length = atoi((char*)NewUserInput.data());
@@ -115,7 +112,7 @@ void Plug::DisplayFunctions(){
                 end = false;
             }
             default:{
-                cout << "Enter 1,2,3,4:";
+                cout << "Enter 1,2,3,4: \n";
                 cin >> UserInput;
             }
         }
@@ -129,4 +126,40 @@ bool isNumber(const string input){
         }
     }
     return true;
+}
+
+ostream& Plug::GetValuse(ostream& os) const{
+    os << "Plug," << GetName() << "," << power << "," << GetHistoricMax() << ","<< GetSensitivity() << "," << GetStart() 
+       << "," << GetLength() << "," << GetOnOff();
+    for(int i = GetHistoric().size(); i > 0; i--){
+        int arr = GetHistoric().front();
+        GetHistoric().pop();
+        os << arr << ",";
+    }
+    os << "\n";
+    return os;
+}
+
+Plug::Plug(list<string> Data, bool& end) : Schedule(end){
+    SetName(Data.front());
+    Data.pop_front();
+    power = stoi(Data.front());
+    Data.pop_front();
+    SetSensitivity(stoi(Data.front()));
+    Data.pop_front();
+    SetHistoricMax(stoi(Data.front()));
+    Data.pop_front();
+    string hold1 = Data.front();
+    Data.pop_front();
+    string hold2 = Data.front();
+    Data.pop_front();
+    StartSchedules(stoi(hold1), stoi(hold2));
+    if(Data.front() == "1"){
+        ChangeOnOff();
+    }
+    Data.pop_front();
+    for(string i : Data){
+        AddToHistoric(stoi(i));
+    }
+    UpdateLive();
 }

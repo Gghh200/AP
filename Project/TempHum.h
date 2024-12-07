@@ -6,46 +6,66 @@ using namespace std;
 
 class TempHum : public LiveHistoric<array<int, 2>>, public Device{
     public:
-        TempHum(bool& end, int& temp);
-        TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp);
+        TempHum(list<string> Data, bool& end, int& temp, int& humidity);
+        TempHum(bool& end, int& temp, int& humidity);
+        TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp, int& humidity);
         void DisplayFunctions() override;
+        ostream& GetValuse(ostream& os) const override;
         
     private:
         void incrementLive() override;
         int& temp;
-        int humidity;
-        int humidityMax;
-        int humidityMin;
+        int& humidity;
 };
 
-TempHum::TempHum(bool& end, int& temp) : humidityMax(0), humidityMin(0), humidity(0), temp(temp), LiveHistoric(0, 0, end){};
+TempHum::TempHum(bool& end, int& temp, int& humidity) : humidity(humidity), temp(temp), LiveHistoric(0, 0, end){};
 
-TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp) : humidityMax(95), humidityMin(65), humidity(65), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
+TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp, int& humidity) : humidity(humidity), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
     this->SetName(name);
-    this->SetType("TempHum");
-    this->UpdateLive();
-    array<int, 2> value = {temp, humidityMin};
-    SetLive(value);
+    UpdateLive();
 }
 
 
 void TempHum::incrementLive(){
-    srand(time(0));
     while(GetEnd()){
-        if(rand() % 2 == 0 && humidity <= humidityMin){
-            humidity += rand() % 3;
-        }else{
-            humidity -= rand() % 3;
-        }
         array<int, 2> value = {temp, humidity};
-        this->SetLive(value);
+        SetLive(value);
     }
 }
 
 void TempHum::DisplayFunctions(){
-    cout << *this
+    cout << "Name is " << GetName() << "\n"
          << "The current temp is: " << (GetLive()[0]) << "\n"
-         << "The current Humidity is: " << GetLive()[1] << "\n"
-         << "This window will close in 10 seconds \n";
-    this_thread::sleep_for(10s);
+         << "The current Humidity is: " << GetLive()[1] << "\n";
+}
+
+ostream& TempHum::GetValuse(ostream& os) const{
+    os << "TempHum," << GetName() << "," << GetHistoricMax() << ","<< GetSensitivity()<< ",";
+    for(int i = GetHistoric().size(); i > 0; i--){
+        array<int, 2> arr = GetHistoric().front();
+        GetHistoric().pop();
+        os << arr[0] << ",";
+        os << arr[1] << ",";
+    }
+    os << "\n";
+    return os;
+}
+
+TempHum::TempHum(list<string> Data, bool& end, int& temp, int& humidity) : temp(temp), humidity(humidity){
+    SetName(Data.front());
+    Data.pop_front();
+    SetHistoricMax(stoi(Data.front()));
+    Data.pop_front();
+    SetSensitivity(stoi(Data.front()));
+    Data.pop_front();
+    while(Data.empty())
+    {
+        string hold1 = Data.front();
+        Data.pop_front();
+        string hold2 = Data.front();
+        Data.pop_front();
+        array<int, 2> value = {stoi(hold1), stoi(hold2)};
+        AddToHistoric(value);
+    }
+    UpdateLive();
 }

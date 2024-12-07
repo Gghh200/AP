@@ -3,21 +3,19 @@
 
 class Radiator : public OneClick::SleepTimer, public OneClick::Schedule, public Device{
     public:
-        Radiator(string name, int& temp, bool& end);
-        Radiator(int& temp, bool& end);
-        inline int& GetTemp(){return temp;};
+        Radiator(string name, bool& end);
+        Radiator(list<string> Data, bool& end);
+        Radiator(bool& end);
         void DisplayFunctions() override;
+        ostream& GetValuse(ostream& os) const override;
 
-    private:
-        int& temp;
 };
 
-Radiator::Radiator(string name, int& temp, bool& end) : temp(temp) , Schedule(end){
+Radiator::Radiator(string name, bool& end) : Schedule(end){
     SetName(name);
-    this->SetType("Radiator");
 }
 
-Radiator::Radiator(int& temp, bool& end) : temp(temp) , Schedule(end){}
+Radiator::Radiator(bool& end) : Schedule(end){}
 
 
 #include "Radiator.h"
@@ -33,8 +31,8 @@ void Radiator::DisplayFunctions(){
     }else{
         IsOnOff = "OFF";
     }
-    cout << *this;
-    cout << "And is currently: " << IsOnOff << "\n";
+    cout << "Name is " << GetName() << "\n"
+         << "And is currently: " << IsOnOff << "\n";
          if(GetSchedule()){
             cout << "Is schedule starts at " << GetStart() << ":00 and last for " << GetLength() << " hours \n";
          }
@@ -43,7 +41,7 @@ void Radiator::DisplayFunctions(){
          << "2: Set/Replace a schedule \n"
          << "3: Delete Schedule if there is one \n"
          << "4: Sleep Timer \n"
-         << "5: Exit Menu";
+         << "5: Exit Menu \n";
 
     while(end){
         cin >> UserInput;
@@ -59,19 +57,16 @@ void Radiator::DisplayFunctions(){
                 int start;
                 int length;
                 string NewUserInput;
-                cout << "Enter start time eg (1900): ";
-                cin >> NewUserInput;
                 while(true){
-                    if(NewUserInput.length() == 4 && isNumber(NewUserInput)){
-                        for(int i = 3; i > 1; i--){
-                            NewUserInput.erase(NewUserInput.begin() + i);
-                        }
+                    cout << "Enter start hour eg (19): \n";
+                    cin >> NewUserInput;
+                    if(NewUserInput.length() == 2 && isNumber(NewUserInput)){
                         start = atoi((char*)NewUserInput.data());
                         break;
                     }
                 }
                 while(true){
-                    cout << "Enter length in hours: ";
+                    cout << "Enter length in hours: \n";
                     cin >> NewUserInput;
                     if(isNumber(NewUserInput)){
                         length = atoi((char*)NewUserInput.data());
@@ -89,7 +84,7 @@ void Radiator::DisplayFunctions(){
                 int length;
                 string NewUserInput;
                 while(true){
-                    cout << "Enter how long the device should be on for in seconds: ";
+                    cout << "Enter how long the device should be on for in seconds: \n";
                     cin >> NewUserInput;
                     if(isNumber(NewUserInput)){
                         length = atoi((char*)NewUserInput.data());
@@ -102,9 +97,28 @@ void Radiator::DisplayFunctions(){
                 end = false;
             }
             default:{
-                cout << "Enter 1,2,3,4:";
+                cout << "Enter 1,2,3,4: \n";
                 cin >> UserInput;
             }
         }
     }
+}
+
+ostream& Radiator::GetValuse(ostream& os) const{
+    os << "Radiator," << GetName() << "," << GetStart() << "," << GetLength() << "," << GetOnOff() << "\n";
+    return os;
+}
+
+Radiator::Radiator(list<string> Data, bool& end) : Schedule(end){
+    SetName(Data.front());
+    Data.pop_front();
+    string hold1 = Data.front();
+    Data.pop_front();
+    string hold2 = Data.front();
+    Data.pop_front();
+    StartSchedules(stoi(hold1), stoi(hold2));
+    if(Data.front() == "1"){
+        ChangeOnOff();
+    }
+    Data.pop_front();
 }
