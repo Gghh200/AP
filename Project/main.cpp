@@ -14,7 +14,7 @@ int main(){
         }
         File.close();
     }
-
+	
 	menu(house);
 	
 	ofstream file;
@@ -29,22 +29,21 @@ int main(){
 	#ifdef _DEBUG
 		_onexit(_CrtDumpMemoryLeaks);
 	#endif
+
 	return 0;
 }
 
 void menu(House& house){
 	bool exit = true;
-	house.display();
 	string UserInput;
-while (exit){
-	LiveHistoric<array<int, 2>>* test;
-	cout << "[device name]: Turn that device on or off \n" 
-		<< "1: List devices \n"
-		<< "2: Sort by name \n"
-		<< "3: Sort by device type (by name as secondary order) \n"
-		<< "4: Select device to interact with it’s full feature set \n"
-		<< "5: Add device \n"
-		<< "6: Exit \n";
+	while (exit){
+		cout << "[device name]: Turn that device on or off \n" 
+			 << "1: List devices \n"
+			 << "2: Sort by name \n"
+			 << "3: Sort by device type (by name as secondary order) \n"
+			 << "4: Select device to interact with it’s full feature set \n"
+			 << "5: Add device \n"
+			 << "6: Exit \n";
 		cin >> UserInput;
 		switch(UserInput[0]) {
 			case '1':{
@@ -79,7 +78,6 @@ while (exit){
 			case '5':{
 				house.Add();
 				exit = house.continues();
-				test = dynamic_cast<LiveHistoric<array<int, 2>>*>(house.GetDevices().front());
 				break;
 			}
 			case '6':{

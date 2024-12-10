@@ -4,8 +4,8 @@
 
 class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public LiveHistoric<int>, public Device{
     public:
-        Plug(list<string> Data, bool& end);
-        Plug(string name, int HistoricMax, float sensitivity, bool& end, int power);
+        Plug(list<string> Data);
+        Plug(string name, int HistoricMax, float sensitivity, int power);
         void DisplayFunctions() override;
         ostream& GetValuse(ostream& os) const;
         
@@ -14,22 +14,20 @@ class Plug : public OneClick::SleepTimer, public OneClick::Schedule, public Live
         int power;
 };
 
-Plug::Plug(string name, int HistoricMax, float sensitivity, bool& end, int power) : power(power), LiveHistoric(HistoricMax, sensitivity, end), Schedule(end){
+Plug::Plug(string name, int HistoricMax, float sensitivity, int power) : power(power), LiveHistoric(HistoricMax, sensitivity){
     this->SetName(name);
     UpdateLive();
 }
 
 void Plug::incrementLive(){
     srand(time(0));
-    while(LiveHistoric::GetEnd()){
-        if(this->OneClick::GetOnOff()){
-            if(rand() % 2 == 0){
-                int temp = (power + rand() % 3);
-                this->SetLive(temp);
-            }else{
-                int temp = (power - rand() % 3);
-                this->SetLive(temp);
-            }
+    if(this->OneClick::GetOnOff()){
+        if(rand() % 2 == 0){
+            int temp = (power + rand() % 3);
+            this->SetLive(temp);
+        }else{
+            int temp = (power - rand() % 3);
+            this->SetLive(temp);
         }
     }
 }
@@ -140,7 +138,7 @@ ostream& Plug::GetValuse(ostream& os) const{
     return os;
 }
 
-Plug::Plug(list<string> Data, bool& end) : Schedule(end){
+Plug::Plug(list<string> Data) : LiveHistoric(0){
     SetName(Data.front());
     Data.pop_front();
     power = stoi(Data.front());

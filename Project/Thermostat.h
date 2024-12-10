@@ -6,15 +6,14 @@ using namespace std;
 
 class Thermostat : public OneClick::Schedule, public Device{
     public:
-            Thermostat(list<string> Data, bool& end);
-            inline Thermostat(bool& end) : Schedule(end){};
-            Thermostat(string name, bool& end);
+            Thermostat(list<string> Data);
+            Thermostat(string name);
             void HeatingBoost();
             void DisplayFunctions() override;
             ostream& GetValuse(ostream& os) const override;
 };
 
-Thermostat::Thermostat(string name, bool& end) : Schedule(end){
+Thermostat::Thermostat(string name){
         this->SetName(name);
 }
 
@@ -99,7 +98,7 @@ ostream& Thermostat::GetValuse(ostream& os) const{
     return os;
 }
 
-Thermostat::Thermostat(list<string> Data, bool& end) : Schedule(end){
+Thermostat::Thermostat(list<string> Data){
     SetName(Data.front());
     Data.pop_front();
     string hold1 = Data.front();

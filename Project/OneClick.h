@@ -41,26 +41,24 @@ inline void OneClick::SleepTimer::calls(int SleepFor){
 
 class OneClick::Schedule : virtual public OneClick{
         public:
-                inline Schedule(bool& end) : SleepStart(0), SleepLength(0), Schedules(false), end(end){};
+                inline Schedule() : SleepStart(0), SleepLength(0), Schedules(false){};
                 inline void StartSchedules(int start, int length){Schedules = true; ChangeSchedules(start, length); TimeCheck();}
                 inline void ChangeSchedules(int start, int length){SleepStart = start; SleepLength = length;};
                 inline void DeleteSchedule(){Schedules = false;};
                 inline bool GetSchedule() const {return Schedules;};
                 inline int GetStart() const {return SleepStart % 3600 / 3600;};
                 inline int GetLength() const {return SleepLength % 3600 / 3600;};
-                inline bool& GetEnd() const {return end;};
 
         private:
                 int SleepStart;
                 int SleepLength;
                 bool Schedules;
-                bool& end;
-                inline void TimeCheck() {thread thread1(&OneClick::Schedule::timeChecks, this, ref(end));};
-                void timeChecks(bool& end);
+                inline void TimeCheck() {thread thread1(&OneClick::Schedule::timeChecks, this);};
+                void timeChecks();
 };
 
-void OneClick::Schedule::timeChecks(bool& end){
-    while(Schedules && end){
+void OneClick::Schedule::timeChecks(){
+    while(Schedules){
         if((time(0) % 3600 ) / 3600 == SleepStart){
             ChangeOnOff();
             this_thread::sleep_for(chrono::seconds(SleepLength * 3600));

@@ -10,17 +10,16 @@ class LiveHistoric{
         inline queue<T> GetHistoric() const {return historic;};
         
     protected:
-        inline LiveHistoric() : live(NULL), HistoricMax(0), sensitivity(0), end(false){};
-        LiveHistoric(int HistoricMax, int sensitivity, bool& end);
+        inline LiveHistoric(T live) : live(live), HistoricMax(0), sensitivity(0){};
+        LiveHistoric(int HistoricMax, int sensitivity);
         ~LiveHistoric();
         inline void SetLive(T &live){this->live = live;};
-        inline bool& GetEnd() const {return end;};
         inline T GetLive() const {return live;};
         inline void SetHistoric(queue<T> historic){this->historic = historic;};
         inline int GetHistoricMax() const {return HistoricMax;};
         inline void SetHistoricMax(int HistoricMax) {this->HistoricMax = HistoricMax;};
         inline int GetSensitivity() const {return sensitivity;};
-        inline void SetSensitivity(int Sensitivity) {this->Sensitivity = Sensitivity;};
+        inline void SetSensitivity(int Sensitivity) {this->sensitivity = Sensitivity;};
         void AddToHistoric(T data);
         void UpdateLive();
         virtual void incrementLive() = 0;
@@ -30,11 +29,10 @@ class LiveHistoric{
         queue<T> historic;
         int HistoricMax;
         int sensitivity;
-        bool& end;
 };
 
 template <typename T>
-LiveHistoric<T>::LiveHistoric(int HistoricMax, int sensitivity, bool& end) : HistoricMax(HistoricMax), sensitivity(sensitivity), end(end){}
+LiveHistoric<T>::LiveHistoric(int HistoricMax, int sensitivity) : HistoricMax(HistoricMax), sensitivity(sensitivity){}
 
 template <typename T>
 LiveHistoric<T>::~LiveHistoric(){
@@ -54,17 +52,15 @@ void LiveHistoric<T>::UpdateLive(){
 template <typename T>
 void LiveHistoric<T>::Update(){
     int x = 0;
-    while(end){
-        if(historic.size() != HistoricMax){
-            historic.push(live);
-        }
-        else{
-            historic.pop();
-            historic.push(live);
-        }
-        x = 0;
-        this_thread::sleep_for(chrono::seconds(sensitivity));
+    if(historic.size() != HistoricMax){
+        historic.push(live);
     }
+    else{
+        historic.pop();
+        historic.push(live);
+    }
+    x = 0;
+    this_thread::sleep_for(chrono::seconds(sensitivity));
 }
 
 template <typename T>

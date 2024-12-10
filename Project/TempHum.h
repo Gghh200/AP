@@ -6,9 +6,9 @@ using namespace std;
 
 class TempHum : public LiveHistoric<array<int, 2>>, public Device{
     public:
-        TempHum(list<string> Data, bool& end, int& temp, int& humidity);
-        TempHum(bool& end, int& temp, int& humidity);
-        TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp, int& humidity);
+        TempHum(list<string> Data, int& temp, int& humidity);
+        TempHum(int& temp, int& humidity);
+        TempHum(string name, int HistoricMax, float sensitivity, int& temp, int& humidity);
         void DisplayFunctions() override;
         ostream& GetValuse(ostream& os) const override;
         
@@ -18,19 +18,18 @@ class TempHum : public LiveHistoric<array<int, 2>>, public Device{
         int& humidity;
 };
 
-TempHum::TempHum(bool& end, int& temp, int& humidity) : humidity(humidity), temp(temp), LiveHistoric(0, 0, end){};
+TempHum::TempHum(int& temp, int& humidity) : humidity(humidity), temp(temp), LiveHistoric(0, 0){};
 
-TempHum::TempHum(string name, int HistoricMax, float sensitivity, bool& end, int& temp, int& humidity) : humidity(humidity), temp(temp), LiveHistoric(HistoricMax, sensitivity, end){
+TempHum::TempHum(string name, int HistoricMax, float sensitivity, int& temp, int& humidity) : humidity(humidity), temp(temp), 
+                 LiveHistoric(HistoricMax, sensitivity){
     this->SetName(name);
     UpdateLive();
 }
 
 
 void TempHum::incrementLive(){
-    while(GetEnd()){
-        array<int, 2> value = {temp, humidity};
-        SetLive(value);
-    }
+    array<int, 2> value = {temp, humidity};
+    SetLive(value);
 }
 
 void TempHum::DisplayFunctions(){
@@ -51,7 +50,7 @@ ostream& TempHum::GetValuse(ostream& os) const{
     return os;
 }
 
-TempHum::TempHum(list<string> Data, bool& end, int& temp, int& humidity) : temp(temp), humidity(humidity){
+TempHum::TempHum(list<string> Data, int& temp, int& humidity) : temp(temp), humidity(humidity), LiveHistoric(array<int, 2> {0,0}){
     SetName(Data.front());
     Data.pop_front();
     SetHistoricMax(stoi(Data.front()));

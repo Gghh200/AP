@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <functional>
 using namespace std;
 
 class Device{
@@ -13,7 +14,6 @@ class Device{
         protected:
                 inline Device() : name("NULL"){};
                 inline void SetName(string name){this->name = name;};
-
 
         private:
                 string name;

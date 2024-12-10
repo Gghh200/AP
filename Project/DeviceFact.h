@@ -28,12 +28,12 @@ Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& t
             cin >> sensitivity;
             cout << "Enter power consumption of the plug \n";
             cin >> power;
-			return new Plug(name, HistoricMax, sensitivity, end, power);
+			return new Plug(name, HistoricMax, sensitivity, power);
 			break;
 		 }
         case 3: 
         { 
-            return new Radiator(name, end);
+            return new Radiator(name);
             break;
         }
         case 4:
@@ -45,6 +45,7 @@ Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& t
             break;
         }
         case 5:
+        
 		 {
             int HistoricMax;
             float sensitivity;
@@ -53,12 +54,12 @@ Device* DeviceFact::createDevice(int type, const string& name, bool& end, int& t
             cin >> HistoricMax;
             cout << "Enter how often are reading taken in seconds \n";
             cin >> sensitivity;
-			return new TempHum(name, HistoricMax, sensitivity, end, temp, humidity);
+			return new TempHum(name, HistoricMax, sensitivity, temp, humidity);
 			break;
 		 }
         case 6: 
         { 
-            return new Thermostat(name, end);
+            return new Thermostat(name);
             break;
         }
         default:

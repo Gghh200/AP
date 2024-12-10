@@ -15,7 +15,8 @@ using namespace std;
 
 class House{
     public:
-            inline House(int TempMax, int TempMin, int HumidityMax, int HumidityMin);
+            House(int TempMax, int TempMin, int HumidityMax, int HumidityMin);
+			~House();
             inline void ChangeEnd(){end = !end;};
             inline int GetSize() const {return devices.size();};
 			inline list<Device*> GetDevices() const {return devices;};
@@ -45,6 +46,11 @@ class House{
 House::House(int TempMax, int TempMin, int HumidityMax, int HumidityMin) : TempMax(TempMax), TempMin(TempMin), HumidityMax(HumidityMax), HumidityMin(HumidityMin), temp((TempMax + TempMin) / 2), humidity((HumidityMax + HumidityMin) / 2){
         thread thread1(&House::Update, this); thread1.detach();
 }
+
+House::~House(){
+	devices.clear();
+}
+
 void House::Update(){
 	while(end){
 		for(Device* device : devices){
@@ -154,14 +160,14 @@ void House::AddFromFile(string data){
 		Data.pop_front();
 		devices.push_back(new Light(Data));
 	}else if(Data.front() == "Plug"){
-		devices.push_back(new Plug(Data, end));
+		devices.push_back(new Plug(Data));
 	}else if(Data.front() == "Radiator"){
-		devices.push_back(new Radiator(Data, end));
+		devices.push_back(new Radiator(Data));
 	}else if(Data.front() == "Speaker"){
 		devices.push_back(new Speaker(Data));
 	}else if(Data.front() == "TempHum"){
-		devices.push_back(new TempHum(Data, end, temp, humidity));
+		devices.push_back(new TempHum(Data, temp, humidity));
 	}else if(Data.front() == "Thermostat"){
-		devices.push_back(new Thermostat(Data, end));
+		devices.push_back(new Thermostat(Data));
 	}
 }

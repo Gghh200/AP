@@ -3,19 +3,16 @@
 
 class Radiator : public OneClick::SleepTimer, public OneClick::Schedule, public Device{
     public:
-        Radiator(string name, bool& end);
-        Radiator(list<string> Data, bool& end);
-        Radiator(bool& end);
+        Radiator(string name);
+        Radiator(list<string> Data);
         void DisplayFunctions() override;
         ostream& GetValuse(ostream& os) const override;
 
 };
 
-Radiator::Radiator(string name, bool& end) : Schedule(end){
+Radiator::Radiator(string name){
     SetName(name);
 }
-
-Radiator::Radiator(bool& end) : Schedule(end){}
 
 
 #include "Radiator.h"
@@ -109,7 +106,7 @@ ostream& Radiator::GetValuse(ostream& os) const{
     return os;
 }
 
-Radiator::Radiator(list<string> Data, bool& end) : Schedule(end){
+Radiator::Radiator(list<string> Data){
     SetName(Data.front());
     Data.pop_front();
     string hold1 = Data.front();
